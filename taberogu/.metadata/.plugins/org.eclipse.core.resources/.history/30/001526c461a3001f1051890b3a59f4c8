@@ -1,0 +1,9 @@
+package entity;
+
+public class Review {
+
+	public Review() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+}

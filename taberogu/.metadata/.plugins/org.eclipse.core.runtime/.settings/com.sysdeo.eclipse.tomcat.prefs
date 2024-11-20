@@ -1,0 +1,7 @@
+tomcatDir=D:/プログラミング/PAO/tomcat/9
+eclipse.preferences.version=1
+fixTomcatHomeBug=fixed
+contextsDir=D:/プログラミング/PAO/tomcat/9/conf/Catalina/localhost
+tomcatVersion=tomcatV9
+computeSourcePath=true
+tomcatConfigFile=D:/プログラミング/PAO/tomcat/9/conf/server.xml

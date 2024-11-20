@@ -1,0 +1,9 @@
+package com.example.taberogu;
+
+public class HomeController {
+
+	public HomeController() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+}

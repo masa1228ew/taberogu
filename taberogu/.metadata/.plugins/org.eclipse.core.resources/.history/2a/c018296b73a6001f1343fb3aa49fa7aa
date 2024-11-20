@@ -1,0 +1,6 @@
+package com.example.taberogu.repository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {	
+ 	public User findByEmail(String email);
+}
+

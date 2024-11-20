@@ -1,0 +1,9 @@
+package controller;
+
+public class ShopContoller {
+
+	public ShopContoller() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+}
