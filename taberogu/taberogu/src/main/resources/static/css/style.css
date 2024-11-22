@@ -69,3 +69,23 @@ html {
  .search-button {
             height: auto; /* ボタンの高さをテキストボックスに合わせる */
         }
+        
+         .samuraitravel-dropdown-item:active {
+   background-color: #5196a6;
+ }
+ .samuraitravel-link-danger {
+     color: #f2594b;
+ }
+ 
+ .samuraitravel-link-danger:hover {
+     color: #a63c3c;
+ }
+ 
+ .samuraitravel-btn-danger {
+     background-color: #f2594b !important;
+     transition: 0.1s;
+ }
+ 
+ .samuraitravel-btn-danger:hover {
+   opacity: 0.8;   
+ }

@@ -54,9 +54,12 @@
 				</div>
 				</div>
 				
-				<a href="#" class="btn text-white">登録</a>
+				<a th:href="@{/admin/shop/register}" class="btn text-white">登録</a>
 <!--<h3>登録</h3>-->
 			</div>
+			<div th:if="${successMessage}" class="alert alert-info">
+                                 <span th:text="${successMessage}"></span>
+                             </div>       
 			<table class="table">
 				<thead>
 				 <tr>
@@ -65,6 +68,7 @@
 					<th scope="col">住所</th>
 					<th scope="col">電話番号</th>
 					<th scope="col"></th>
+					 <th scope="col"></th>    
 				 </tr>	
 				</thead>
 				<tbody>
@@ -73,7 +77,24 @@
 						<td th:text="${shop.getName()}"></td>
 						<td th:text="${shop.getAddress()}"></td>
 						<td th:text="${shop.getPhoneNumber()}"></td>
-						<td><a href="#">詳細</a></td>
+						<td><a th:href="@{/admin/shop/__${shop.getId()}__}">詳細</a></td>
+						<td><a href="#" class="samuraitravel-link-danger" data-bs-toggle="modal" th:data-bs-target="${'#deleteHouseModal' + shop.getId()}">削除</a></td>   
+						
+						 <div class="modal fade" th:id="${'deleteHouseModal' + shop.getId()}" tabindex="-1" th:aria-labelledby="${'deleteHouseModalLabel' + shop.getId()}">
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                     <div class="modal-header">
+                                                         <h5 class="modal-title" th:id="${'deleteHouseModalLabel' + shop.getId()}" th:text="${shop.getName() + 'を削除してもよろしいですか？'}"></h5>
+                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                                                     </div>
+                                                     <div class="modal-footer">
+                                                         <form method="post"th:action="@{/admin/shop/__${shop.getId()}__/delete}">
+                                                             <button type="submit" class="btn samuraitravel-btn-danger text-white shadow-sm">削除</button>
+                                                         </form>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>         
 <!-- <tr>/-->
 <!--                        <td>1</td>-->
 <!--                        <td>名古屋店</td>-->
@@ -94,7 +115,7 @@
 <!--                        <td>大阪府大阪市北区7-8-9</td>-->
 <!--                        <td>06-555-6666</td>-->
 <!--                        <td><a href="#" class="btn btn-link">詳細</a></td>-->
-<!--                    </tr>-->
+                    </tr>
 				</tbody>
 			</table>
 			<div th:if="${shopPage.getTotalPages() > 1}" class="d-flex justify-content-center">
@@ -124,5 +145,6 @@
 			<p class="text-center">&copy;NAGOYAMESI  All rights reserved.</p>
 		</div>
 	</footer>
+	<div th:replace="~{fragment::scripts}"></div>
 	</body>
 </html>
