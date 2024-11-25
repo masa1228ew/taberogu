@@ -6,5 +6,6 @@ import com.example.taberogu.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {	
  	public User findByEmail(String email);
+ 	public User  getReferenceById(Integer id);
 }
 

@@ -1,0 +1,7 @@
+package com.example.taberogu.repository;
+
+import com.example.taberogu.entity.VerificationToken;
+
+public interface PasswordResetTokenRepository {
+	 public VerificationToken findByToken(String token);
+}

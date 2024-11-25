@@ -1,0 +1,29 @@
+package com.example.taberogu.controller;
+
+@Controller
+@RequestMapping("/mail")
+public class MailController {
+	private final UserRepository userRepository;
+
+	public MailController(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	@GetMapping
+	public String index(Model model) {
+
+		model.addAttribute("passwordChangeForm", new PasswordChangeForm());
+
+		return "mail/index";
+	}
+
+	@PostMapping("/update")
+	public String change(@RequestParam(name = "id") Integer id,
+			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+			@ModelAttribute @Validated PasswordChangeForm passwordChangeForm, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+		User user = userRepository.getReferenceById(id);
+
+		return "redirect:user/index";
+	}
+}

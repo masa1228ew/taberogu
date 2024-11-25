@@ -1,9 +1,0 @@
-package entity;
-
-public class users {
-
-	public users() {
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
-
-}

@@ -1,0 +1,101 @@
+package com.example.taberogu.Service;
+import java.sql.Date;
+import java.util.Calendar;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.taberogu.entity.PasswordResetToken;
+import com.example.taberogu.entity.Role;
+import com.example.taberogu.entity.User;
+import com.example.taberogu.form.SignupForm;
+import com.example.taberogu.repository.PasswordResetTokenRepository;
+import com.example.taberogu.repository.RoleRepository;
+import com.example.taberogu.repository.UserRepository;
+
+@Service
+public class UserService {
+	 private final UserRepository userRepository;
+     private final RoleRepository roleRepository;
+     private final PasswordEncoder passwordEncoder;
+     private final PasswordResetTokenRepository passwordResetTokenRepository;
+     
+     public UserService(UserRepository userRepository, RoleRepository roleRepository, 
+    		 			PasswordEncoder passwordEncoder,PasswordResetTokenRepository passwordResetTokenRepository) {
+         this.userRepository = userRepository;
+         this.roleRepository = roleRepository;        
+         this.passwordEncoder = passwordEncoder;
+         this.passwordResetTokenRepository = passwordResetTokenRepository;
+     }    
+     
+     @Transactional
+     public User create(SignupForm signupForm) {
+         User user = new User();
+         Role role = roleRepository.findByName("ROLE_GENERAL");
+         
+         user.setName(signupForm.getName());
+         user.setFurigana(signupForm.getFurigana());
+        
+        
+        
+         user.setEmail(signupForm.getEmail());
+         user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
+         user.setRole(role);
+//         user.setEnabled(true);
+         user.setEnabled(false);
+         
+         return userRepository.save(user);
+     }    
+     public boolean isEmailRegistered(String email) {
+         User user = userRepository.findByEmail(email);  
+         return user != null;
+     }    
+     public boolean isSamePassword(String password, String passwordConfirmation) {
+         return password.equals(passwordConfirmation);
+     }     
+     @Transactional
+     public void enableUser(User user) {
+         user.setEnabled(true); 
+         userRepository.save(user);
+     }
+
+	 
+	public void createPasswordResetTokenForUser(String email, String token) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("ユーザーが見つかりません。");
+        }
+        PasswordResetToken myToken = new PasswordResetToken();
+        myToken.setToken(token);
+        myToken.setUser(user);
+        myToken.setExpiryDate(calculateExpiryDate(24 * 60));
+        passwordResetTokenRepository.save(myToken);
+    }
+
+    public PasswordResetToken getPasswordResetToken(String token) {
+        return passwordResetTokenRepository.findByToken(token);
+    }
+	
+	 public boolean updatePassword(String token, String newPassword) {
+	        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
+	        if (resetToken == null) {
+	            return false;
+	        }
+	        Calendar cal = Calendar.getInstance();
+	        if ((resetToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+	            return false;
+	        }
+	        User user = resetToken.getUser();
+	        user.setPassword(passwordEncoder.encode(newPassword));
+	        userRepository.save(user);
+	        passwordResetTokenRepository.delete(resetToken);
+	        return true;
+	    }
+	 private Date calculateExpiryDate(int expiryTimeInMinutes) {
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(new Date(expiryTimeInMinutes, expiryTimeInMinutes, expiryTimeInMinutes));
+	        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+	        return new Date(cal.getTime().getTime());
+	    }
+}

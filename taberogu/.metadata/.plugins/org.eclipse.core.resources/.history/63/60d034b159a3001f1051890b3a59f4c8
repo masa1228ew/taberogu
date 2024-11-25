@@ -1,9 +1,0 @@
-package entity;
-
-public class Shop {
-
-	public Shop() {
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
-
-}

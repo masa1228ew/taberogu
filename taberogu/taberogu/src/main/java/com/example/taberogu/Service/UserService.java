@@ -3,22 +3,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.taberogu.entity.PasswordResetToken;
 import com.example.taberogu.entity.Role;
 import com.example.taberogu.entity.User;
 import com.example.taberogu.form.SignupForm;
+import com.example.taberogu.repository.PasswordResetTokenRepository;
 import com.example.taberogu.repository.RoleRepository;
 import com.example.taberogu.repository.UserRepository;
+import com.example.taberogu.repository.VerificationTokenRepository;
 
 @Service
 public class UserService {
 	 private final UserRepository userRepository;
      private final RoleRepository roleRepository;
      private final PasswordEncoder passwordEncoder;
+     private final PasswordResetTokenRepository passwordResetTokenRepository;
+     private final  VerificationTokenRepository verificationTokenRepository;
      
-     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+     public UserService(UserRepository userRepository, RoleRepository roleRepository, 
+    		 			PasswordEncoder passwordEncoder,PasswordResetTokenRepository passwordResetTokenRepository,
+    		 			VerificationTokenRepository verificationTokenRepository) {
          this.userRepository = userRepository;
          this.roleRepository = roleRepository;        
          this.passwordEncoder = passwordEncoder;
+         this.passwordResetTokenRepository = passwordResetTokenRepository;
+         this.verificationTokenRepository = verificationTokenRepository;
      }    
      
      @Transactional
@@ -50,5 +59,38 @@ public class UserService {
      public void enableUser(User user) {
          user.setEnabled(true); 
          userRepository.save(user);
-     }    
+         
+        
+     }
+
+	 
+	public void createPasswordResetTokenForUser(String email, String token) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("ユーザーが見つかりません。");
+        }
+        PasswordResetToken myToken = new PasswordResetToken();
+        myToken.setToken(token);
+        myToken.setUser(user);
+        passwordResetTokenRepository.save(myToken);
+      
+    }
+
+    public PasswordResetToken getPasswordResetToken(String token) {
+        return passwordResetTokenRepository.findByToken(token);
+    }
+	
+	 public boolean updatePassword(String token, String newPassword) {
+	        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
+	        if (resetToken == null) {
+	            return false;
+	        }
+	       
+	        User user = resetToken.getUser();
+	        user.setPassword(passwordEncoder.encode(newPassword));
+	        userRepository.save(user);
+	        passwordResetTokenRepository.delete(resetToken);
+	        return true;
+	    }
+	
 }

@@ -1,9 +1,0 @@
-package entity;
-
-public class Reservations {
-
-	public Reservations() {
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
-
-}
