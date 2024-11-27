@@ -29,5 +29,11 @@ public class VerificationTokenService {
     // トークンの文字列で検索した結果を返す
     public VerificationToken getVerificationToken(String token) {
         return verificationTokenRepository.findByToken(token);
-    }    
+    }
+
+	
+
+	
+
+	  
 }

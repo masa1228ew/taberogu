@@ -59,7 +59,7 @@ public class UserService {
      public void enableUser(User user) {
          user.setEnabled(true); 
          userRepository.save(user);
-         
+         passwordResetTokenRepository.deleteByUser(user);
         
      }
 
@@ -73,6 +73,7 @@ public class UserService {
         myToken.setToken(token);
         myToken.setUser(user);
         passwordResetTokenRepository.save(myToken);
+        
       
     }
 

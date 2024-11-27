@@ -17,6 +17,7 @@ import com.example.taberogu.entity.User;
 import com.example.taberogu.entity.VerificationToken;
 import com.example.taberogu.event.SignupEventPublisher;
 import com.example.taberogu.form.SignupForm;
+import com.example.taberogu.repository.VerificationTokenRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,11 +26,14 @@ public class AuthController {
  private final UserService userService;
  private final SignupEventPublisher signupEventPublisher; 
  private final VerificationTokenService verificationTokenService;
+ private final VerificationTokenRepository verificationTokenRepository;
      
- public AuthController(UserService userService, SignupEventPublisher signupEventPublisher, VerificationTokenService verificationTokenService) { 
+ public AuthController(UserService userService, SignupEventPublisher signupEventPublisher, 
+		 VerificationTokenService verificationTokenService,VerificationTokenRepository verificationTokenRepository) { 
          this.userService = userService;  
          this.signupEventPublisher = signupEventPublisher;
          this.verificationTokenService = verificationTokenService;
+         this.verificationTokenRepository = verificationTokenRepository;
      }    
 @GetMapping("/login")
 public String login() {
@@ -77,14 +81,15 @@ public String signup(@ModelAttribute @Validated SignupForm signupForm, BindingRe
 }    
 
 @GetMapping("/signup/verify")
-public String verify(@RequestParam(name = "token") String token, Model model) {
+public String verify(@RequestParam(name = "token") String token, Model model,Integer id) {
     VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
     
     if (verificationToken != null) {
         User user = verificationToken.getUser();  
         userService.enableUser(user);
         String successMessage = "会員登録が完了しました。";
-        model.addAttribute("successMessage", successMessage);            
+        model.addAttribute("successMessage", successMessage);   
+//        verificationTokenRepository.deleteByUser(user);
     } else {
         String errorMessage = "トークンが無効です。";
         model.addAttribute("errorMessage", errorMessage);
