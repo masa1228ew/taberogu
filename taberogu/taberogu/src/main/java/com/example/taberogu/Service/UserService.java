@@ -7,6 +7,7 @@ import com.example.taberogu.entity.PasswordResetToken;
 import com.example.taberogu.entity.Role;
 import com.example.taberogu.entity.User;
 import com.example.taberogu.form.SignupForm;
+import com.example.taberogu.form.UserEditForm;
 import com.example.taberogu.repository.PasswordResetTokenRepository;
 import com.example.taberogu.repository.RoleRepository;
 import com.example.taberogu.repository.UserRepository;
@@ -48,6 +49,18 @@ public class UserService {
          
          return userRepository.save(user);
      }    
+     
+     @Transactional
+     public void update(UserEditForm userEditForm) {
+         User user = userRepository.getReferenceById(userEditForm.getId());
+         
+         user.setName(userEditForm.getName());
+         user.setFurigana(userEditForm.getFurigana());
+         user.setEmail(userEditForm.getEmail());      
+         
+         userRepository.save(user);
+     }     
+     
      public boolean isEmailRegistered(String email) {
          User user = userRepository.findByEmail(email);  
          return user != null;
@@ -72,6 +85,7 @@ public class UserService {
         PasswordResetToken myToken = new PasswordResetToken();
         myToken.setToken(token);
         myToken.setUser(user);
+        passwordResetTokenRepository.deleteByUser(user);
         passwordResetTokenRepository.save(myToken);
         
       
@@ -93,5 +107,10 @@ public class UserService {
 	        passwordResetTokenRepository.delete(resetToken);
 	        return true;
 	    }
+	 
+	 public boolean isEmailChanged(UserEditForm userEditForm) {
+         User currentUser = userRepository.getReferenceById(userEditForm.getId());
+         return !userEditForm.getEmail().equals(currentUser.getEmail());      
+     }  
 	
 }

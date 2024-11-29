@@ -23,7 +23,7 @@ private Integer id;
 private Integer shopId;
 
 @Column(name="user_id")
-private Integer userId;
+private Integer user;
 
 @Column(name = "created_at", insertable = false, updatable = false)
 private Timestamp createdAt;

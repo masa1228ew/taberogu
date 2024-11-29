@@ -35,7 +35,7 @@
 <!--					URLにerrorパラメタが存在する場合にこのdiv要素を表示する-->
 <!--					 ・ログイン失敗時のリダイレクト先を「https://ドメイン名/login?error」にすると、エラーメッセージが表示される-->
 
-						<form th:action="@{/passEdit}" th:object="${PasswordEditForm}" method="post">
+						<form th:action="@{/passedit}" th:object="${PasswordEditForm}" method="post">
 							
 						    <input type="hidden" name="token" th:value="${token}">
 						    <div class="form-group mb-3">
@@ -46,8 +46,8 @@
 						        <label for="confirmNewPassword">新しいパスワード（確認）</label>
 						        <input type="password" class="form-control" name="confirmNewPassword" placeholder="新しいパスワード（確認）">
 						    </div>
-						    <button type="submit">再設定</button>
-						</form>
+<!--						    <button type="submit">再設定</button>-->
+<!--						</form>-->
 <!--						送信ボタン-->
 							<div class="form-group d-flex justify-content-center my-4">
 								<button type="submit" class="btn text-white shadow-sm w-100 samuraitravel-btn" >パスワード変更</button>

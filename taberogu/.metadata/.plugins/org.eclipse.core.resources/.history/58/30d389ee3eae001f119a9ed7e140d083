@@ -1,0 +1,7 @@
+package com.example.taberogu.repository;
+
+public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
+
+
+
+}

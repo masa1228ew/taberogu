@@ -14,7 +14,7 @@ private Integer id;
 	private String newPassword;
 	
 	@NotBlank(message = "パスワード（確認用）を入力してください。")
-	private String passwordConfirmation;
+	private String confirmNewPassword;
 
 	
 	}

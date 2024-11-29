@@ -75,7 +75,7 @@ public class PassController {
 	        javaMailSender.send(message);
 	    }
 	    
-	    @GetMapping("/passedit")
+	    @GetMapping("/reset-password")
 	    public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
 	        PasswordResetToken resetToken = userService.getPasswordResetToken(token);
 	        if (resetToken == null) {
@@ -92,6 +92,7 @@ public class PassController {
 	                                       BindingResult result,
 	                                       RedirectAttributes redirectAttributes) {
 	        if (result.hasErrors()) {
+//	        	result.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
 	            redirectAttributes.addFlashAttribute("error", "フォームにエラーがあります。");
 	            return "redirect:/auth/passedit?token=" + token;
 	        }
