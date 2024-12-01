@@ -1,0 +1,13 @@
+package com.example.taberogu.form;
+
+@Data
+@AllArgsConstructor
+public class ReservationRegisterForm {
+	private Integer houseId;
+    
+    private Integer userId;    
+        
+    private String checkinDate;    
+        
+
+}

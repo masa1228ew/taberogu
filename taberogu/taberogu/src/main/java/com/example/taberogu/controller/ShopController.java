@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.taberogu.entity.Shop;
+import com.example.taberogu.form.ReservationInputForm;
 import com.example.taberogu.repository.ShopRepository;
 
 @Controller
@@ -48,7 +49,8 @@ public class ShopController {
      public String show(@PathVariable(name = "id") Integer id, Model model) {
          Shop shop = shopRepository.getReferenceById(id);
          
-         model.addAttribute("shop", shop);         
+         model.addAttribute("shop", shop);   
+         model.addAttribute("reservationInputForm", new ReservationInputForm());
          
          return "shop/show";
      }    

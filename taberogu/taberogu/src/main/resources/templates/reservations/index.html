@@ -40,9 +40,9 @@
                                  <tbody>                                                    
                                      <tr th:each="reservation : ${reservationPage}">
                                          <td>
-                                             <a th:href="@{/shop/__${reservations.getShop().getId()}__}" th:text="${reservations.getShop().getName()}"></a>
+                                             <a th:href="@{/shop/__${reservation.getShop().getId()}__}" th:text="${reservation.getShop().getName()}"></a>
                                          </td>
-                                         <td th:text="${reservations.getCheckinDate()}"></td>
+                                         <td th:text="${reservation.getCheckinDate()}"></td>
                                          
                                      </tr>                                    
                                  </tbody>

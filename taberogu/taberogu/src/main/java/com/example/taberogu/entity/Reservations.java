@@ -1,12 +1,17 @@
 package com.example.taberogu.entity;
 
-import java.security.Timestamp;
+
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,11 +24,16 @@ public class Reservations {
 @Column(name="id")
 private Integer id;
 
-@Column(name="shop_id")
-private Integer shopId;
+@ManyToOne
+@JoinColumn(name = "shop_id")
+private Shop shop;
 
-@Column(name="user_id")
-private Integer user;
+@ManyToOne
+@JoinColumn(name = "user_id")
+private User user;
+
+@Column(name = "checkin_date")
+private LocalDate checkinDate;
 
 @Column(name = "created_at", insertable = false, updatable = false)
 private Timestamp createdAt;

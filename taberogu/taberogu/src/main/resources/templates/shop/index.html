@@ -35,7 +35,7 @@
 					カテゴリから探す
 				</div>
 				<div>
-					<form method="get" th:action="@{/admin/shop}">
+					<form method="get" th:action="@{/shop}">
 						<div>
 							<select name="category">
 								<option value="" hidden>選択してください</option>
@@ -54,7 +54,7 @@
 				</div>
 				</div>
 				
-				<a th:href="@{/admin/shop/register}" class="btn text-white">登録</a>
+<!--				<a th:href="@{/admin/shop/register}" class="btn text-white">登録</a>-->
 <!--<h3>登録</h3>-->
 			</div>
 			<div th:if="${successMessage}" class="alert alert-info">
@@ -77,7 +77,7 @@
 						<td th:text="${shop.getName()}"></td>
 						<td th:text="${shop.getAddress()}"></td>
 						<td th:text="${shop.getPhoneNumber()}"></td>
-						<td><a th:href="@{/admin/shop/__${shop.getId()}__}">詳細</a></td>
+						<td><a th:href="@{/shop/__${shop.getId()}__}">詳細</a></td>
 						  
 						
 						      
