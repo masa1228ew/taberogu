@@ -1,13 +1,26 @@
 package com.example.taberogu.form;
 
-import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
-//@Date
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
 public class ReservationInputForm {
-	@NotBlank(message = "利用日を選択してください。")
-    private String checkinDate;
+	@NotNull(message = "利用日を選択してください。")
+	 @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate checkinDate;
 
-	
+//	public LocalDate getCheckinDate() {
+//		 TODO 自動生成されたメソッド・スタブ
+//		return checkinDate;
+//	}
+
+//	public void setCheckinDate(LocalDate checkinDate) {
+//        this.checkinDate = checkinDate;
+//    }
 
 //	public LocalDate getCheckinDate() {
 		// TODO 自動生成されたメソッド・スタブ

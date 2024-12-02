@@ -1,16 +1,18 @@
 package com.example.taberogu.form;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class ReservationRegisterForm {
-	private Integer houseId;
+	private Integer shopId;
     
     private Integer userId;    
         
-    private String checkinDate;    
+    private LocalDate checkinDate;    
         
 
 }

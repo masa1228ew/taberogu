@@ -1,6 +1,6 @@
 package com.example.taberogu.entity;
 
-import java.security.Timestamp;
+ import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,8 +29,8 @@ private Shop shop;
 @JoinColumn(name="user_id")
 private User user;
 
-@Column(name="review")
-private Integer review;
+@Column(name="content")
+private Integer content;
 
 @Column(name = "created_at", insertable = false, updatable = false)
 private Timestamp createdAt;

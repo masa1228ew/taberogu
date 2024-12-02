@@ -21,8 +21,8 @@ public class ShopEditForm {
 	     @NotBlank(message = "説明を入力してください。")
 	     private String description;   
 	     
-	     @NotBlank(message = "カテゴリを入力してください。")
-	     private String  category;  
+	     @NotNull(message = "カテゴリを入力してください。")
+	     private Integer  category;  
 	         
 	     
 	     

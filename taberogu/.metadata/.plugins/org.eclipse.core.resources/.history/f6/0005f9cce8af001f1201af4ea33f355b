@@ -1,0 +1,7 @@
+package com.example.taberogu.form;
+
+public class ReviewRegisterForm {
+	
+	 @NotNull
+	 private Integer content;
+}

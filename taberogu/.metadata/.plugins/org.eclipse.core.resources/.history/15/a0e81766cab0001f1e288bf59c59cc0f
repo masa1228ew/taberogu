@@ -1,0 +1,19 @@
+package com.example.taberogu.repository;
+
+public interface FavRepository extends JpaRepository<Fav, Integer> {
+	 public Fav findByHouseAndUser(Shop shop, User user);
+
+	public Fav getReferenceByFavId(Integer favId);
+
+	public boolean existsByUserAndFavId(User user, int fav);
+
+	public void deleteByUserAndFavId(User user, int fav);
+
+	public boolean existsByUserAndHouse(User user, Shop shop);
+
+	public void deleteByUserAndHouse(User user, Shop shop);
+
+	public Page<Fav> findByUserOrderByCreatedAtDesc(User user, Pageable pageable);
+
+	//public Page<Fav> findByHouseOrderByCreatedAtDesc(House house,Pageable pageable);
+	}

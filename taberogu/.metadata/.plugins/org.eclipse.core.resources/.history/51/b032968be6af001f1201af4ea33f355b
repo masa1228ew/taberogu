@@ -1,0 +1,6 @@
+package com.example.taberogu.form;
+
+public class ReviewRegisterForm {
+	 @NotBlank
+	 private String review;
+}

@@ -12,8 +12,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.taberogu.Service.ReservationService;
 import com.example.taberogu.entity.Reservations;
 import com.example.taberogu.entity.Shop;
 import com.example.taberogu.entity.User;
@@ -26,11 +28,12 @@ import com.example.taberogu.security.UserDetailsImpl;
 public class ReservationController {
 	private final ReservationRepository reservationRepository;
 	 private final ShopRepository shopRepository;
-//     private final ReservationService reservationService; 
+     private final ReservationService reservationService; 
     
-    public ReservationController(ReservationRepository reservationRepository,ShopRepository shopRepository) {        
+    public ReservationController(ReservationRepository reservationRepository,ShopRepository shopRepository,ReservationService reservationService) {        
         this.reservationRepository = reservationRepository;  
         this.shopRepository = shopRepository;
+        this.reservationService = reservationService;
     }    
 
     @GetMapping("/reservations")
@@ -89,4 +92,23 @@ public class ReservationController {
         
         return "reservations/confirm";
     }    
+    
+    @PostMapping("/shop/{id}/reservations/create")
+    public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {                
+        reservationService.create(reservationRegisterForm);        
+        
+        return "redirect:/reservations?reserved";
+    }
+    
+    @PostMapping("reservations/{id}/delete")
+    public String delete(@PathVariable(name="id") Integer id,RedirectAttributes redirectAttributes) {
+   	 
+    	reservationRepository.deleteById(id);
+   	 
+//   	 System.out.println(id);
+   	 
+   	  redirectAttributes.addFlashAttribute("successMessage", "予約を削除しました。");
+   	  
+   	  return "redirect:/reservations";
+    }
 }

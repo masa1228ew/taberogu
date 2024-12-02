@@ -1,0 +1,10 @@
+package com.example.taberogu.form;
+
+import jakarta.validation.constraints.NotNull;
+
+@Data
+public class ReviewRegisterForm {
+	
+	 @NotNull
+	 private Integer content;
+}

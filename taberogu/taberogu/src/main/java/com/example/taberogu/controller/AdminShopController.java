@@ -85,6 +85,7 @@ public class AdminShopController {
      public String edit(@PathVariable(name = "id") Integer id, Model model) {
          Shop shop = shopRepository.getReferenceById(id);
          String imageName = shop.getImageName();
+         
          ShopEditForm shopEditForm = new ShopEditForm(shop.getId(), shop.getName(), null, shop.getDescription(), shop.getCategory(),  shop.getAddress(), shop.getPhoneNumber(), shop.getEmail());
          
          model.addAttribute("imageName", imageName);

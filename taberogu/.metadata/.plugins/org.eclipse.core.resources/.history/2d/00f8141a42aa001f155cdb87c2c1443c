@@ -1,9 +1,0 @@
-package com.example.taberogu.repository;
-
-import com.example.taberogu.entity.PasswordResetToken;
-
-public interface PasswordResetTokenRepository {
-	 public PasswordResetToken findByToken(String token);
-
-	
-}

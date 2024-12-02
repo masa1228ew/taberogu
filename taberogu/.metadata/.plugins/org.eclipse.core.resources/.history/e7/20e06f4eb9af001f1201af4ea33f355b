@@ -1,0 +1,12 @@
+package com.example.taberogu.form;
+
+import jakarta.validation.constraints.Min;
+
+public class ReviewEditForm {
+	 @NotNull
+	  private Integer id;
+	 
+	 @NotNull
+	  @Min(value = 1)
+	  private Integer review;
+}

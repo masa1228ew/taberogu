@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -32,11 +34,12 @@ private String imageName;
 @Column(name="description")
 private String description;
 
-@Column(name="category")
-private String category;
+@ManyToOne
+@JoinColumn(name="category_id")
+private Category category;
 
 @Column(name="address")
-private String address;
+private Integer address;
 
 @Column(name="phone_number")
 private String phoneNumber;
