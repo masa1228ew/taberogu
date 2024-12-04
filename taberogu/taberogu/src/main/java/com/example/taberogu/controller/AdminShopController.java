@@ -1,6 +1,8 @@
 package com.example.taberogu.controller;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,19 +19,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.taberogu.Service.ShopService;
+import com.example.taberogu.entity.Category;
 import com.example.taberogu.entity.Shop;
 import com.example.taberogu.form.ShopEditForm;
 import com.example.taberogu.form.ShopRegisterForm;
+import com.example.taberogu.repository.CategoryRepository;
 import com.example.taberogu.repository.ShopRepository;
 @Controller
 @RequestMapping("/admin/shop")
 public class AdminShopController { 
  private final ShopRepository shopRepository; 
  private final ShopService shopService;  
+ private final CategoryRepository categoryRepository;
      
-     public AdminShopController(ShopRepository shopRepository, ShopService shopService) {
+     public AdminShopController(ShopRepository shopRepository, ShopService shopService, CategoryRepository categoryRepository) {
          this.shopRepository = shopRepository;        
          this.shopService = shopService; 
+         this.categoryRepository = categoryRepository;
      }	
      
      @GetMapping
@@ -85,14 +91,35 @@ public class AdminShopController {
      public String edit(@PathVariable(name = "id") Integer id, Model model) {
          Shop shop = shopRepository.getReferenceById(id);
          String imageName = shop.getImageName();
-         
-         ShopEditForm shopEditForm = new ShopEditForm(shop.getId(), shop.getName(), null, shop.getDescription(), shop.getCategory(),  shop.getAddress(), shop.getPhoneNumber(), shop.getEmail());
-         
+         List<Category> categories = categoryRepository.findAll();
+       
+         ShopEditForm form = new ShopEditForm(shop.getId(), shop.getName(), shop.getDescription(), shop.getAddress(), shop.getPhoneNumber(), shop.getEmail());
+
+         model.addAttribute("shopEditForm", form);
          model.addAttribute("imageName", imageName);
-         model.addAttribute("shopEditForm", shopEditForm);
+         model.addAttribute("categories", categories);
+         return "shop/edit";
+     }
+
+//     @PostMapping("/edit")
+//     public String updateShop(@Valid @ModelAttribute ShopEditForm form, BindingResult result, Model model) {
+//         if (result.hasErrors()) {
+//             model.addAttribute("categories", categoryRepository.findAll());
+//             return "shop/edit";
+//         }
+
+//         shopService.updateShop(form);
+//         return "redirect:/shops";
+//     }
+
+//         shopEditForm.setCategory(shop.getCategory().getId());
          
-         return "admin/shop/edit";
-     }    
+//         model.addAttribute("imageName", imageName);
+//         model.addAttribute("shopEditForm", shopEditForm);
+//         model.addAttribute("categories", categories);
+         
+//         return "admin/shop/edit";
+//     }    
      
      @PostMapping("/{id}/update")
      public String update(@ModelAttribute @Validated ShopEditForm shopEditForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
@@ -118,5 +145,29 @@ public class AdminShopController {
 //	public String index() {
 //		return "admin/shop/index";
 //	}
+//     @GetMapping
+//     public String listShops(@RequestParam(required = false) Long categoryId, Model model) {
+//         List<Shop> shops;
+//         if (categoryId != null) {
+//             shops = shopService.getShopsByCategory(categoryId);
+//         } else {
+//             shops = shopService.getAllShops();
+//         }
+//         model.addAttribute("shops", shops);
+//         model.addAttribute("categories", categoryRepository.findAll());
+//         return "shop/list";
+//     }
 
+     @GetMapping("/new")
+     public String createShopForm(Model model) {
+         model.addAttribute("shop", new Shop());
+         model.addAttribute("categories", categoryRepository.findAll());
+         return "shop/create";
+     }
+
+     @PostMapping
+     public String saveShop(@ModelAttribute Shop shop) {
+         shopService.saveShop(shop);
+         return "redirect:/shops";
+     }
 }

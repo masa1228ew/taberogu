@@ -4,24 +4,48 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.taberogu.entity.Category;
 import com.example.taberogu.entity.Shop;
 import com.example.taberogu.form.ShopEditForm;
 import com.example.taberogu.form.ShopRegisterForm;
+import com.example.taberogu.repository.CategoryRepository;
 import com.example.taberogu.repository.ShopRepository;
 
 @Service
 public class ShopService {
- private final ShopRepository shopRepository;    
+ private final ShopRepository shopRepository;   
+ private final CategoryRepository categoryRepository;
      
-     public ShopService(ShopRepository shopRepository) {
-         this.shopRepository = shopRepository;        
+     public ShopService(ShopRepository shopRepository, CategoryRepository categoryRepository) {
+         this.shopRepository = shopRepository;   
+         this.categoryRepository = categoryRepository;
      }    
+     
+     public Shop findById(Integer id) {
+         return shopRepository.findById(id).orElseThrow(() -> new NoSuchElementException("店舗が見つかりません"));
+     }
+     
+     public void updateShop(ShopEditForm form) {
+         Shop shop = shopRepository.findById(form.getId()).orElseThrow(() -> new NoSuchElementException("店舗が見つかりません"));
+         shop.setName(form.getName());
+         shop.setDescription(form.getDescription());
+         shop.setAddress(form.getAddress());
+         shop.setPhoneNumber(form.getPhoneNumber());
+         shop.setEmail(form.getEmail());
+
+         Category category = categoryRepository.findById(form.getCategoryId()).orElseThrow(() -> new NoSuchElementException("カテゴリが見つかりません"));
+         shop.setCategory(category);
+
+         shopRepository.save(shop);
+     }
      
      @Transactional
      public void create(ShopRegisterForm shopRegisterForm) {
@@ -38,7 +62,7 @@ public class ShopService {
          
          shop.setName(shopRegisterForm.getName());                
          shop.setDescription(shopRegisterForm.getDescription());
-         shop.setCategory(shopRegisterForm.getCategory());
+//         shop.setCategory(shopRegisterForm.getCategory());
         
          shop.setAddress(shopRegisterForm.getAddress());
          shop.setPhoneNumber(shopRegisterForm.getPhoneNumber());
@@ -46,6 +70,18 @@ public class ShopService {
                      
          shopRepository.save(shop);
      }  
+     
+     public List<Shop> getShopsByCategory(Integer categoryId) {
+         return shopRepository.findByCategoryId(categoryId);
+     }
+     
+     public List<Shop> getAllShops() {
+         return shopRepository.findAll();
+     }
+     
+     public void saveShop(Shop shop) {
+         shopRepository.save(shop);
+     }
      
      @Transactional
      public void update(ShopEditForm shopEditForm) {
@@ -62,7 +98,7 @@ public class ShopService {
          
          shop.setName(shopEditForm.getName());                
          shop.setDescription(shopEditForm.getDescription());
-         shop.setCategory(shopEditForm.getCategory());
+//         shop.setCategoryId(shopEditForm.getCategory());
         
          shop.setAddress(shopEditForm.getAddress());
          shop.setPhoneNumber(shopEditForm.getPhoneNumber());

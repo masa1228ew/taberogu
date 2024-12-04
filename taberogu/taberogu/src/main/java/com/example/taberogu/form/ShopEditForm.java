@@ -2,37 +2,42 @@ package com.example.taberogu.form;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ShopEditForm {
-	 @NotNull
-     private Integer id; 
+	private final Integer id;
+	private final String name;
+	private final MultipartFile imageFile;
+	 private final String description;
+	 private final String address;
+	 private final String phoneNumber;
+	 private final String email;
+//	 @NotNull
+//     private Integer id; 
 	 
-	  @NotBlank(message = "店舗名を入力してください。")
-	     private String name;
+//	  @NotBlank(message = "店舗名を入力してください。")
+//	     private String name;
 	         
-	     private MultipartFile imageFile;
+//	     private MultipartFile imageFile;
 	     
-	     @NotBlank(message = "説明を入力してください。")
-	     private String description;   
+//	     @NotBlank(message = "説明を入力してください。")
+//	     private String description;   
 	     
-	     @NotNull(message = "カテゴリを入力してください。")
-	     private Integer  category;  
+//	     @NotNull(message = "カテゴリを入力してください。")
+//	     private Integer  categoryId;  
 	         
 	     
 	     
 	     
-	     @NotBlank(message = "住所を入力してください。")
-	     private String address;
+//	     @NotBlank(message = "住所を入力してください。")
+//	     private String address;
 	     
-	     @NotBlank(message = "電話番号を入力してください。")
-	     private String phoneNumber;
+//	     @NotBlank(message = "電話番号を入力してください。")
+//	     private String phoneNumber;
 	     
-	     @NotBlank(message = "メールアドレスを入力してください。")
-	     private String email;
+//	     @NotBlank(message = "メールアドレスを入力してください。")
+//	     private String email;
 }

@@ -13,4 +13,5 @@ public interface ShopRepository extends JpaRepository<Shop, Integer>{
  public Page<Shop> findByCategory(String category,Pageable pageable);
  
  public List<Shop> findTop10ByOrderByCreatedAtDesc();
+ List<Shop> findByCategoryId(Integer categoryId);
 }

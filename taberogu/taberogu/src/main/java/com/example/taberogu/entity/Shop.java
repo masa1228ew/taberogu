@@ -39,7 +39,7 @@ private String description;
 private Category category;
 
 @Column(name="address")
-private Integer address;
+private String address;
 
 @Column(name="phone_number")
 private String phoneNumber;
