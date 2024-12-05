@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.taberogu.Service.ShopService;
@@ -93,12 +94,24 @@ public class AdminShopController {
          String imageName = shop.getImageName();
          List<Category> categories = categoryRepository.findAll();
        
-         ShopEditForm form = new ShopEditForm(shop.getId(), shop.getName(), shop.getDescription(), shop.getAddress(), shop.getPhoneNumber(), shop.getEmail());
+         ShopEditForm form = new ShopEditForm(shop.getId(), shop.getName(),null, shop.getDescription(), shop.getAddress(), shop.getPhoneNumber(), shop.getEmail());
 
          model.addAttribute("shopEditForm", form);
          model.addAttribute("imageName", imageName);
          model.addAttribute("categories", categories);
          return "shop/edit";
+     }
+     @PostMapping("/edit")
+     public String handleEditForm(@ModelAttribute ShopEditForm shopEditForm) {
+         // 画像ファイルの取得を確認
+         MultipartFile imageFile = shopEditForm.getImageFile();
+         
+         if (imageFile != null && !imageFile.isEmpty()) {
+             // 画像を処理するロジックをここに追加
+         }
+         
+         // フォームの処理が完了したら、次のページにリダイレクト
+         return "redirect:/success";
      }
 
 //     @PostMapping("/edit")

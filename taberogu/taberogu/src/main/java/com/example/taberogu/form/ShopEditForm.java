@@ -15,6 +15,8 @@ public class ShopEditForm {
 	 private final String address;
 	 private final String phoneNumber;
 	 private final String email;
+	 
+	 private Integer categoryId;
 //	 @NotNull
 //     private Integer id; 
 	 
