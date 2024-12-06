@@ -2869,3 +2869,32 @@
 2024-12-05 21:56:23,124 [Worker-26: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-12-05 21:56:23,128 [Worker-26: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
 2024-12-05 22:02:20,256 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-12-05 23:43:27,906 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-12-05 23:44:18,429 [Worker-5: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-05 23:44:18,453 [Worker-5: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-05 23:44:18,464 [Worker-5: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:04:14,888 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:04:14,894 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:04:14,899 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:04:22,700 [Worker-18: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:04:22,704 [Worker-18: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:04:22,710 [Worker-18: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:05:27,278 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:05:27,290 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:05:27,295 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:06:39,753 [Worker-5: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:06:39,758 [Worker-5: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:06:39,764 [Worker-5: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:06:50,511 [Worker-6: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:06:50,514 [Worker-6: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:06:50,519 [Worker-6: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:07:29,772 [Worker-6: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:07:29,777 [Worker-6: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:07:29,781 [Worker-6: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 00:08:02,509 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 00:08:02,513 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 00:08:02,525 [Worker-12: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources
+2024-12-06 13:54:42,622 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-12-06 13:55:57,460 [Worker-11: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-12-06 13:55:57,479 [Worker-11: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 31 resources from src\main\resources to target\classes
+2024-12-06 13:55:57,501 [Worker-11: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory D:\プログラミング\PAO\taberogu\taberogu\src\test\resources

@@ -10,7 +10,7 @@ import com.example.taberogu.entity.Shop;
 
 public interface ShopRepository extends JpaRepository<Shop, Integer>{
  public Page<Shop> findByNameLike(String keyword,Pageable pageable);
- public Page<Shop> findByCategory(String category,Pageable pageable);
+ public Page<Shop> findByCategory(Integer categoryId,Pageable pageable);
  
  public List<Shop> findTop10ByOrderByCreatedAtDesc();
  List<Shop> findByCategoryId(Integer categoryId);

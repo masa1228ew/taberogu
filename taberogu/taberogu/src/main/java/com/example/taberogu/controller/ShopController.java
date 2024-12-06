@@ -58,9 +58,9 @@ public class ShopController {
     	  if (keyword != null && !keyword.isEmpty()) {
               shopPage = shopRepository.findByNameLike("%" + keyword + "%", pageable);                
           }
-    	  else if(category != null && !category.isEmpty()){
-    		  shopPage = shopRepository.findByCategory( category , pageable);
-    	  }
+//    	  else if(category != null && !category.isEmpty()){
+//    		  shopPage = shopRepository.findByCategory( category , pageable);
+//    	  }
     	  else {
               shopPage = shopRepository.findAll(pageable);
           }  

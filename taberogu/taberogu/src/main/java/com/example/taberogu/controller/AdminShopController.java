@@ -41,22 +41,22 @@ public class AdminShopController {
      
      @GetMapping
      public String index(Model model,@PageableDefault Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword,
-    		 @RequestParam(name = "category", required = false) String category)  {
+    		 @RequestParam(name = "category", required = false) Integer categoryId)  {
     	 
     	 Page<Shop> shopPage;
     	 
     	  if (keyword != null && !keyword.isEmpty()) {
               shopPage = shopRepository.findByNameLike("%" + keyword + "%", pageable);                
           }
-    	  else if(category != null && !category.isEmpty()){
-    		  shopPage = shopRepository.findByCategory( category , pageable);
-    	  }
+//    	  else if(categoryId != null && !categoryId.isEmpty()){
+//    		  shopPage = shopRepository.findByCategory( categoryId , pageable);
+//    	  }
     	  else {
               shopPage = shopRepository.findAll(pageable);
           }  
     	 model.addAttribute("shopPage",shopPage);
     	 model.addAttribute("keyword", keyword);
-    	 model.addAttribute("category", category);
+    	 model.addAttribute("categoryId", categoryId);
     	 
     	 return "admin/shop/index";
      }
