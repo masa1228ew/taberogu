@@ -46,7 +46,9 @@
 				<thead>
 				 <tr>
 					<th scope="col">ID</th>
-					<th scope="col">カテゴリ名名</th>
+					<th scope="col">カテゴリ名</th>
+					<th scope="col"></th>
+
 					
 					   
 				 </tr>	
@@ -54,8 +56,8 @@
 				<tbody>
 					<tr th:each="category : ${categoryPage}">
 						<td th:text="${category.getId()}"></td>
-						<td th:text="${shop.getCategory()}"></td>
-						
+						<td th:text="${category.getCategory()}"></td>
+						<td><a th:href="@{/category/__${category.getId()}__}">詳細</a></td>
 						  
 						
 						      

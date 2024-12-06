@@ -1,0 +1,34 @@
+package com.example.taberogu.controller;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.taberogu.entity.Category;
+import com.example.taberogu.repository.CategoryRepository;
+
+@Controller
+@RequestMapping("/category")
+public class CategoryController {
+	  private final CategoryRepository categoryRepository;        
+	     
+	     public CategoryController(CategoryRepository categoryRepository) {
+	         this.categoryRepository = categoryRepository;            
+	     }    
+	     @GetMapping("/")
+	     public String index(Model model,@PageableDefault Pageable pageable) {
+	    	 Page<Category> categoryPage;
+	    	 categoryPage = categoryRepository.findAll(pageable);
+	         List<Category> newCategory = categoryRepository.findTop10ByOrderById();
+	         model.addAttribute("categoryPage",categoryPage);
+	         model.addAttribute("newCategory", newCategory);        
+	        
+	        return "category/index";
+	}
+}
