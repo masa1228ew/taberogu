@@ -44,3 +44,5 @@ INSERT IGNORE INTO review(id,user_id,shop_id,content,created_at) VALUES(10,4,5,4
 INSERT IGNORE INTO review(id,user_id,shop_id,content,created_at) VALUES(11,5,6,5,'2023-06-12 00:00:00');
 INSERT IGNORE INTO review(id,user_id,shop_id,content,created_at) VALUES(12,1,3,1,'2024-12-03 00:26:45');
 INSERT IGNORE INTO review(id,user_id,shop_id,content,created_at) VALUES(14,7,1,2,'2024-12-03 00:31:45');
+
+INSERT IGNORE INTO category_shop(id,shop_id,category_id) VALUES(1,1,1);

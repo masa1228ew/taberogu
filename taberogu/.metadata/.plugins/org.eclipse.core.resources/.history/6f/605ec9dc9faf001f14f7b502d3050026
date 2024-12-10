@@ -1,9 +1,0 @@
-package com.example.taberogu.Service;
-
-@Service
-public class ReservationService {
-	
-    
-    // 宿泊料金を計算する
-  
-}

@@ -1,9 +1,0 @@
-package com.example.taberogu.form;
-
-@Data
-public class ReservationInputForm {
-	@NotBlank(message = "利用日を選択してください。")
-    private String checkinDate;   
-	
-	 
-}

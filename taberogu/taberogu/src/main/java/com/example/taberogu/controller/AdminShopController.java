@@ -99,7 +99,7 @@ public class AdminShopController {
          model.addAttribute("shopEditForm", form);
          model.addAttribute("imageName", imageName);
          model.addAttribute("categories", categories);
-         return "shop/edit";
+         return "/admin/shop/edit";
      }
      @PostMapping("/edit")
      public String handleEditForm(@ModelAttribute ShopEditForm shopEditForm) {

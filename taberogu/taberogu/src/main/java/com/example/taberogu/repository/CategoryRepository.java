@@ -10,6 +10,7 @@ import com.example.taberogu.entity.Category;
 
 public interface CategoryRepository  extends JpaRepository<Category, Integer>{
 	public Category  getReferenceById(Integer id);
+	public Page<Category> findByCategoryLike(String keyword,Pageable pageable);
 	public Page<Category> findByCategory(String category,Pageable pageable);
 	 public List<Category> findTop10ByOrderById();
 }
