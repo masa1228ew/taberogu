@@ -53,11 +53,11 @@
     <fullyQualifiedTypeName name="org.springframework.validation.BindingResult"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ModelAttribute"/>
     <fullyQualifiedTypeName name="org.springframework.validation.annotation.Validated"/>
-    <fullyQualifiedTypeName name="jakarta.validation.constraints.NotNull"/>
     <fullyQualifiedTypeName name="com.example.taberogu.repository.CategoryRepository"/>
     <fullyQualifiedTypeName name="com.example.taberogu.form.CategoryEditForm"/>
     <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
     <fullyQualifiedTypeName name="com.example.taberogu.entity.Category"/>
     <fullyQualifiedTypeName name="jakarta.validation.constraints.NotBlank"/>
     <fullyQualifiedTypeName name="com.example.taberogu.Service.CategoryService"/>
+    <fullyQualifiedTypeName name="jakarta.validation.constraints.NotNull"/>
 </qualifiedTypeNameHistroy>

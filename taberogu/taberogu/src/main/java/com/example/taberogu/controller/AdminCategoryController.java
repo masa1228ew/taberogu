@@ -105,7 +105,7 @@ public class AdminCategoryController {
 	       
 	         CategoryEditForm form = new CategoryEditForm(category.getId(), category.getCategory());
 
-	         model.addAttribute("shopEditForm", form);
+	         model.addAttribute("categoryEditForm", form);
 //	         model.addAttribute("imageName", imageName);
 //	         model.addAttribute("categories", categories);
 	         return "admin/category/edit";
@@ -122,4 +122,13 @@ public class AdminCategoryController {
 	         
 	         return "redirect:/admin/category";
 	     }    
+	     
+	     @PostMapping("/{id}/delete")
+	     public String delete(@PathVariable(name="id")Integer id,RedirectAttributes redirectAttributes) {
+	   	  categoryRepository.deleteById(id);
+	   	  
+	   	  redirectAttributes.addFlashAttribute("successMessage","カテゴリを削除しました。");
+	   	  
+	   	  return "redirect:/admin/category";
+	     }
 }

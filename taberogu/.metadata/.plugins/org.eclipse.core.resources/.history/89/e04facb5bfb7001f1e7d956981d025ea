@@ -63,7 +63,7 @@
 <div th:if="${#fields.hasErrors('category')}" class="text-danger small mb-2" th:errors="*{category}"></div>	
 <!--<textarea class="form-control" th:field="*{category}" cols="30" rows="5"></textarea>-->
 	<fieldset>
-<!--  <legend>カテゴリをせん</legend>-->
+  <legend>Select a maintenance drone:</legend>
 
   <div>
     <input type="radio" id="1" name="category" value="1" checked />

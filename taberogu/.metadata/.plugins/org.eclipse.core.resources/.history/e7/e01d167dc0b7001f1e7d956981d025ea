@@ -19,7 +19,7 @@ import lombok.Data;
 	     private String description;   
 	     
 	     @NotNull(message = "カテゴリを入力してください。")
-	     private Integer  category;  
+	     private Integer  category_id;  
 	         
 	     
 	     
