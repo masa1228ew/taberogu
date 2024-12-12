@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 	 
-	 @Data
+@Data
+//@AllArgsConstructor
 	 public class ShopRegisterForm {
 	     @NotBlank(message = "店舗名を入力してください。")
 	     private String name;
@@ -20,7 +21,7 @@ import lombok.Data;
 	     
 	     @NotNull(message = "カテゴリを入力してください。")
 	     private Integer  category;  
-	         
+//	     private category category;
 	     
 	     
 	     
@@ -32,5 +33,7 @@ import lombok.Data;
 	     
 	     @NotBlank(message = "メールアドレスを入力してください。")
 	     private String email;
+
+		
 	}
 

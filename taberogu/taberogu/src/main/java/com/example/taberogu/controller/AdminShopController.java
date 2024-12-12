@@ -73,6 +73,7 @@ public class AdminShopController {
      @GetMapping("/register")
      public String register(Model model) {
          model.addAttribute("shopRegisterForm", new ShopRegisterForm());
+         
          return "admin/shop/register";
      }    
      

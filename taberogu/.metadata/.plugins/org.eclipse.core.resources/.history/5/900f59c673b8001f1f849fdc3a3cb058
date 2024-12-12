@@ -1,0 +1,7 @@
+package com.example.taberogu.form;
+
+import com.example.taberogu.entity.User;
+
+public class UserGradeRegisterForm {
+private User user;
+}
