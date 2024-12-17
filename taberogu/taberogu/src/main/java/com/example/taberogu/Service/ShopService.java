@@ -50,6 +50,7 @@ public class ShopService {
      @Transactional
      public void create(ShopRegisterForm shopRegisterForm) {
          Shop shop = new Shop();  
+         Category category = categoryRepository.getReferenceById(shopRegisterForm.getCategory());
 //         Category category = categoryRepository.getReferenceById(categoryEditForm.getId());
          MultipartFile imageFile = shopRegisterForm.getImageFile();
          
@@ -65,7 +66,7 @@ public class ShopService {
          shop.setName(shopRegisterForm.getName());                
          shop.setDescription(shopRegisterForm.getDescription());
 //         shop.setCategory(shopRegisterForm.getCategory());
-         Category category = categoryRepository.getReferenceById(shopRegisterForm.getCategory());
+         shop.setCategory(category);
          shop.setAddress(shopRegisterForm.getAddress());
          shop.setPhoneNumber(shopRegisterForm.getPhoneNumber());
          shop.setEmail(shopRegisterForm.getEmail());

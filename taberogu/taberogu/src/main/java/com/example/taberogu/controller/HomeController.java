@@ -29,6 +29,16 @@ public class HomeController {
 //        return "index";
 //}
      
+//     @GetMapping("/")
+//     public String index(Model modell) {
+//         List<Shop> newShop = shopRepository.findTop10ByOrderByCreatedAtDesc();
+//         User user = userRepository.getReferenceById(userDetailsImpl.getUser().getId());
+//         model.addAttribute("newShop", newShop);
+//         model.addAttribute("user",user);
+//        
+//        return "index";
+//}
+     
      @GetMapping("/")
      public String index(Model model) {
          List<Shop> newShop = shopRepository.findTop10ByOrderByCreatedAtDesc();

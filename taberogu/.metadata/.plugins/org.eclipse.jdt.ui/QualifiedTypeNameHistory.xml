@@ -17,7 +17,6 @@
     <fullyQualifiedTypeName name="jakarta.validation.Valid"/>
     <fullyQualifiedTypeName name="lombok.RequiredArgsConstructor"/>
     <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
-    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.springframework.data.domain.Page"/>
     <fullyQualifiedTypeName name="org.springframework.data.web.PageableDefault"/>
@@ -57,7 +56,8 @@
     <fullyQualifiedTypeName name="com.example.taberogu.form.ReservationRegisterForm"/>
     <fullyQualifiedTypeName name="com.example.taberogu.Service.StripeService"/>
     <fullyQualifiedTypeName name="com.example.taberogu.repository.UserRepository"/>
-    <fullyQualifiedTypeName name="com.example.taberogu.entity.User"/>
     <fullyQualifiedTypeName name="com.example.taberogu.security.UserDetailsImpl"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.annotation.AuthenticationPrincipal"/>
+    <fullyQualifiedTypeName name="com.example.taberogu.entity.User"/>
+    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
 </qualifiedTypeNameHistroy>
