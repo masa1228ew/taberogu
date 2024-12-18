@@ -54,7 +54,9 @@ private Timestamp updatedAt;
 @Column(name = "enabled")
 private Boolean enabled;
 
-@Column(name= "stripe_customer_id")
-private Integer stripeCustomerId;
+@Column(name= "customer_id")
+private String customerId;
+
+
 } 
 

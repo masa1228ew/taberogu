@@ -38,7 +38,7 @@ furigana VARCHAR(50) NOT NULL,
   password VARCHAR(255) NOT NULL, 
   role_id INT NOT NULL, 
       enabled BOOLEAN NOT NULL,
-      stripe_customer_id VARCHAR(255) UNIQUE,
+     customer_id VARCHAR(255) UNIQUE,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
      updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       FOREIGN KEY (role_id) REFERENCES roles (id)

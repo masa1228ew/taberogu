@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-    <fullyQualifiedTypeName name="org.springframework.data.domain.Sort.Direction"/>
-    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
-    <fullyQualifiedTypeName name="java.time.temporal.ChronoUnit"/>
-    <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
-    <fullyQualifiedTypeName name="com.example.taberogu.entity.Fav"/>
-    <fullyQualifiedTypeName name="com.example.taberogu.repository.FavRepository"/>
     <fullyQualifiedTypeName name="com.example.taberogu.Service.FavService"/>
     <fullyQualifiedTypeName name="com.example.taberogu.form.FavForm"/>
     <fullyQualifiedTypeName name="jakarta.persistence.ManyToOne"/>
@@ -33,7 +25,6 @@
     <fullyQualifiedTypeName name="jakarta.persistence.OneToOne"/>
     <fullyQualifiedTypeName name="jakarta.persistence.JoinColumn"/>
     <fullyQualifiedTypeName name="com.example.taberogu.repository.CategoryShopRepository"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
     <fullyQualifiedTypeName name="com.example.taberogu.form.CategoryRegisterForm"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.support.RedirectAttributes"/>
@@ -48,16 +39,25 @@
     <fullyQualifiedTypeName name="com.example.taberogu.Service.CategoryService"/>
     <fullyQualifiedTypeName name="jakarta.validation.constraints.NotNull"/>
     <fullyQualifiedTypeName name="com.stripe.param.checkout.SessionCreateParams"/>
-    <fullyQualifiedTypeName name="com.stripe.model.checkout.Session"/>
     <fullyQualifiedTypeName name="com.example.taberogu.form.UserGradeRegisterForm"/>
-    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="com.example.taberogu.form.ReservationRegisterForm"/>
     <fullyQualifiedTypeName name="com.example.taberogu.Service.StripeService"/>
-    <fullyQualifiedTypeName name="com.example.taberogu.repository.UserRepository"/>
     <fullyQualifiedTypeName name="com.example.taberogu.security.UserDetailsImpl"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.annotation.AuthenticationPrincipal"/>
-    <fullyQualifiedTypeName name="com.example.taberogu.entity.User"/>
     <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+    <fullyQualifiedTypeName name="com.example.taberogu.entity.User"/>
+    <fullyQualifiedTypeName name="com.stripe.exception.StripeException"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="com.stripe.model.checkout.Session"/>
+    <fullyQualifiedTypeName name="com.stripe.param.CustomerCreateParams"/>
+    <fullyQualifiedTypeName name="com.stripe.model.Customer"/>
+    <fullyQualifiedTypeName name="java.util.Optional"/>
+    <fullyQualifiedTypeName name="com.example.taberogu.repository.UserRepository"/>
+    <fullyQualifiedTypeName name="org.slf4j.Logger"/>
+    <fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
+    <fullyQualifiedTypeName name="com.stripe.model.Event"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
 </qualifiedTypeNameHistroy>
