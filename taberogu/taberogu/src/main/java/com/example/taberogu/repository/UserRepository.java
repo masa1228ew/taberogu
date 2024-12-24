@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
  	public User  getReferenceById(Integer id);
  	 public Page<User> findByNameLikeOrFuriganaLike(String nameKeyword, String furiganaKeyword, Pageable pageable);
  	 Optional<User> findByCustomerId(String customerId);
+	public User getByName(String name);
+	Optional<User> findByName(String name);
  	
 }
 
