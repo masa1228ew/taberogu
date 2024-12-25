@@ -1,7 +1,5 @@
 package com.example.taberogu.controller;
 
-import java.time.LocalDate;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +21,9 @@ import com.example.taberogu.form.UserEditForm;
 import com.example.taberogu.repository.UserRepository;
 import com.example.taberogu.security.UserDetailsImpl;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Customer;
+import com.stripe.model.PaymentMethod;
+import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -90,21 +91,81 @@ public class UserController {
      
 //     サブスク料金の支払い
      @PostMapping("/create-checkout-session")
-     public String createCheckoutSession(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, HttpServletRequest httpServletRequest, Model model) {
-     	User user = userRepository.getReferenceById(userDetailsImpl.getUser().getId());
-     	
+    
+     public String createCheckoutSession(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, HttpServletRequest httpServletRequest, Model model
+//    		                             ,@RequestParam String name, 
+//                                         @RequestParam String email, 
+//                                         @RequestParam String paymentMethodId
+//    		                               ,@RequestParam Map<String, Object> customerParams
+    		 ){
+    	 System.out.println("テスト");
+    	 User user = userRepository.getReferenceById(userDetailsImpl.getUser().getId());
+//     	User user = userRepository.getByName(userDetailsImpl.getUser().getName());
+    	 System.out.println("テスト名前");
+//    	 Optional<User> optionalUser = userRepository.findByName(userDetailsImpl.getUser().getName());
+//    	 if (optionalUser.isPresent()) {
+//    	     User user = optionalUser.get();
+    	     // userを使用する処理
+//    	 } else {
+//    	     throw new UsernameNotFoundException("ユーザーが見つかりません");
+//    	 }
          try {
 //         	stripeServiceの決済セッション(createCheckoutSession())を実行
-             String sessionId = stripeService.createCheckoutSession(user, httpServletRequest);
+//             String sessionId = stripeService.createCustomer(user, httpServletRequest);
+//        	 Customer customer = stripeService.createCustomer(name, email, paymentMethodId);
+        	 Customer customer = stripeService.createCustomer(user);
+        	 
+        	 model.addAttribute("customerId", customer.getId());
+             model.addAttribute("customerName", customer.getName());
+             model.addAttribute("customerEmail", customer.getEmail());
+
+//             System.out.println("Customer created successfully: " + customer.getId());
+             
+//        	  // customerParamsから必要な値を取得
+//        	    String name = (String) customerParams.get("name");
+//        	    String email = (String) customerParams.get("email");
+
+        	    // 必要な処理を実行
+        	    System.out.println("Name: " + customer.getName());
+        	    System.out.println("Email: " + customer.getEmail());
+
+//        	    model.addAttribute("name",name);
+//        	    model.addAttribute("email",email);
+
+//             Customer customer = stripeService.createCustomer(name, email);
+//             return ResponseEntity.ok("Customer created with ID: " + customer.getId());
+             
+//        	    String price_1QTlYlBZ4UD9z1bMerQL8aai;
+				String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai";
+        	    
+             Subscription subscription = stripeService.createSubscription(customer.getId(), planId);
+             
+             PaymentMethod paymentMethod = stripeService.getDefaultPaymentMethod(customer.getId());
+             
+             model.addAttribute("paymentMethod",paymentMethod);
+//             model.addAttribute("subscriptionId", subscription.getId());
              // フロントエンドにセッションIDを渡す
-             model.addAttribute("sessionId", sessionId);
+//             model.addAttribute("sessionId", sessionId);
+//             model.addAttribute("sessionId", customer);
+             System.out.println("テストトライ2");
+//             System.out.println("Session ID: " + sessionId); 
+//             System.out.println("Session ID: " + customer);
+//             System.out.println("Received name: " + name);
+//             System.out.println("Received email: " + email);
+//             System.out.println("Received paymentMethodId: " + paymentMethodId);
              
-             return "redirect:/index"; 
+             return "redirect:/"; 
              
-         } catch (StripeException e) {
+         } 
+         catch (Exception e) {
              // エラーハンドリング
-             model.addAttribute("error", e.getMessage());
-             return "error";
+//             model.addAttribute("error", e.getMessage());
+//             return "error"; e.printStackTrace();
+//        	    throw new RuntimeException("予期しないエラーが発生しました。", e);
+        	 e.printStackTrace();
+        	    model.addAttribute("error", e.getMessage());
+        	    return "error";
+         
          }
          
      }
@@ -119,16 +180,28 @@ public class UserController {
              String customerId = session.getCustomer();
              // 顧客情報からユーザーを特定（仮定として、顧客IDをユーザーテーブルのフィールドとして保持）
              User user = userRepository.findByCustomerId(customerId).orElseThrow();
-             user.setSubscriptionStartDate(LocalDate.now());
-             user.setSubscriptionEndDate(LocalDate.now().plusMonths(1));
+//             user.setSubscriptionStartDate(LocalDate.now());
+//             user.setSubscriptionEndDate(LocalDate.now().plusMonths(1));
              
              userRepository.save(user);
              
              redirectAttributes.addFlashAttribute("message", "支払処理が完了しました");
-             return "redirect:/house/index";
+             return "redirect:/";
          } catch (StripeException e) {
              model.addAttribute("error", e.getMessage());
              return "error";
          }
+     }
+//     @GetMapping("/success")
+//     public String successPage(@RequestParam("session_id") String sessionId, Model model) {
+         // ここでサブスクリプション成功の処理を追加
+//         model.addAttribute("message", "支払いが成功しました。");
+//         return "success";  // success.htmlテンプレートを表示
+//     }
+
+     @GetMapping("/cancel")
+     public String cancelPage(Model model) {
+         model.addAttribute("message", "支払いがキャンセルされました。再度試してください。");
+         return "cancel";  // cancel.htmlテンプレートを表示
      }
 }

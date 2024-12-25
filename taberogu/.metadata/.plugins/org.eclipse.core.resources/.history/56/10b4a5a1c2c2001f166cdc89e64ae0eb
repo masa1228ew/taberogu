@@ -139,17 +139,10 @@ public class UserController {
 				String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai";
         	    
              Subscription subscription = stripeService.createSubscription(customer.getId(), planId);
-//            try {
              System.out.println("テストサブスク");
              PaymentMethod paymentMethod = stripeService.getDefaultPaymentMethod(customer.getId());
-//             stripeService.attachPaymentMethodToCustomer(customerId, paymentMethodId);
+             
              model.addAttribute("paymentMethod",paymentMethod);
-//            }
-//            catch (StripeException e) {
-//                e.printStackTrace();
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                                     .body("Failed to attach payment method: " + e.getMessage());
-//            }
 //             model.addAttribute("subscriptionId", subscription.getId());
              // フロントエンドにセッションIDを渡す
 //             model.addAttribute("sessionId", sessionId);
