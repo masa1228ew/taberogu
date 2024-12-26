@@ -17,6 +17,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.Invoice;
 import com.stripe.model.InvoiceCollection;
+import com.stripe.model.PaymentIntent;
 import com.stripe.model.PaymentMethod;
 import com.stripe.model.PaymentMethodCollection;
 import com.stripe.model.Subscription;
@@ -249,5 +250,19 @@ public class StripeService {
 	        }
 
 	        return totalRevenueCents;
+	    }
+	    
+	    public PaymentIntent createPaymentIntent(String customerId, int amount, String currency, String paymentMethodId) throws StripeException {
+	        Stripe.apiKey = stripeApiKey;
+
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("customer", customerId);
+//	        params.put("amount", amount);
+//	        params.put("currency", currency);
+	        params.put("payment_method", paymentMethodId);
+	        params.put("confirm", true);
+	        params.put("off_session", true);
+
+	        return PaymentIntent.create(params);
 	    }
 }

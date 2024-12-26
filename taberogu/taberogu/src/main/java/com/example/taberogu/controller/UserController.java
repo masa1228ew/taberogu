@@ -1,5 +1,7 @@
 package com.example.taberogu.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,6 @@ import com.example.taberogu.repository.UserRepository;
 import com.example.taberogu.security.UserDetailsImpl;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
-import com.stripe.model.PaymentMethod;
 import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
 
@@ -91,17 +92,45 @@ public class UserController {
      
 //     サブスク料金の支払い
      @PostMapping("/create-checkout-session")
-    
-     public String createCheckoutSession(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, HttpServletRequest httpServletRequest, Model model
+     public ResponseEntity<String> subscribeUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
+             @RequestParam String paymentMethodId) {
+try {
+User user = userRepository.getReferenceById(userDetails.getUser().getId());
+
+// Stripeの顧客IDを確認し、必要なら作成
+if (user.getCustomerId() == null) {
+Customer customer = stripeService.createCustomer(user);
+user.setCustomerId(customer.getId());
+userRepository.save(user);
+}
+
+// 支払い方法を顧客に追加
+stripeService.attachPaymentMethodToCustomer(user.getCustomerId(), paymentMethodId);
+
+// 事前に作成したプランIDでサブスクリプションを作成
+String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai"; // 事前にStripeで作成したプランIDを指定します
+Subscription subscription = stripeService.createSubscription(user.getCustomerId(), planId);
+
+return ResponseEntity.ok("Subscription successful: " + subscription.getId());
+
+} catch (StripeException e) {
+e.printStackTrace();
+return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+.body("Error while creating subscription: " + e.getMessage());
+}
+}
+
+
+//     public String createCheckoutSession(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, HttpServletRequest httpServletRequest, Model model
 //    		                             ,@RequestParam String name, 
 //                                         @RequestParam String email, 
 //                                         @RequestParam String paymentMethodId
 //    		                               ,@RequestParam Map<String, Object> customerParams
-    		 ){
-    	 System.out.println("テスト");
-    	 User user = userRepository.getReferenceById(userDetailsImpl.getUser().getId());
+//    		 ){
+//    	 System.out.println("テスト");
+//    	 User user = userRepository.getReferenceById(userDetailsImpl.getUser().getId());
 //     	User user = userRepository.getByName(userDetailsImpl.getUser().getName());
-    	 System.out.println("テスト名前");
+//    	 System.out.println("テスト名前");
 //    	 Optional<User> optionalUser = userRepository.findByName(userDetailsImpl.getUser().getName());
 //    	 if (optionalUser.isPresent()) {
 //    	     User user = optionalUser.get();
@@ -109,15 +138,15 @@ public class UserController {
 //    	 } else {
 //    	     throw new UsernameNotFoundException("ユーザーが見つかりません");
 //    	 }
-         try {
+//         try {
 //         	stripeServiceの決済セッション(createCheckoutSession())を実行
 //             String sessionId = stripeService.createCustomer(user, httpServletRequest);
 //        	 Customer customer = stripeService.createCustomer(name, email, paymentMethodId);
-        	 Customer customer = stripeService.createCustomer(user);
+//        	 Customer customer = stripeService.createCustomer(user);
         	 
-        	 model.addAttribute("customerId", customer.getId());
-             model.addAttribute("customerName", customer.getName());
-             model.addAttribute("customerEmail", customer.getEmail());
+//        	 model.addAttribute("customerId", customer.getId());
+//             model.addAttribute("customerName", customer.getName());
+//             model.addAttribute("customerEmail", customer.getEmail());
 
 //             System.out.println("Customer created successfully: " + customer.getId());
              
@@ -126,8 +155,8 @@ public class UserController {
 //        	    String email = (String) customerParams.get("email");
 
         	    // 必要な処理を実行
-        	    System.out.println("Name: " + customer.getName());
-        	    System.out.println("Email: " + customer.getEmail());
+//        	    System.out.println("Name: " + customer.getName());
+//        	    System.out.println("Email: " + customer.getEmail());
 
 //        	    model.addAttribute("name",name);
 //        	    model.addAttribute("email",email);
@@ -136,14 +165,14 @@ public class UserController {
 //             return ResponseEntity.ok("Customer created with ID: " + customer.getId());
              
 //        	    String price_1QTlYlBZ4UD9z1bMerQL8aai;
-				String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai";
+//				String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai";
         	    
-             Subscription subscription = stripeService.createSubscription(customer.getId(), planId);
+//             Subscription subscription = stripeService.createSubscription(customer.getId(), planId);
 //            try {
-             System.out.println("テストサブスク");
-             PaymentMethod paymentMethod = stripeService.getDefaultPaymentMethod(customer.getId());
+//             System.out.println("テストサブスク");
+//             PaymentMethod paymentMethod = stripeService.getDefaultPaymentMethod(customer.getId());
 //             stripeService.attachPaymentMethodToCustomer(customerId, paymentMethodId);
-             model.addAttribute("paymentMethod",paymentMethod);
+//             model.addAttribute("paymentMethod",paymentMethod);
 //            }
 //            catch (StripeException e) {
 //                e.printStackTrace();
@@ -154,28 +183,28 @@ public class UserController {
              // フロントエンドにセッションIDを渡す
 //             model.addAttribute("sessionId", sessionId);
 //             model.addAttribute("sessionId", customer);
-             System.out.println("テストトライ2");
+//             System.out.println("テストトライ2");
 //             System.out.println("Session ID: " + sessionId); 
 //             System.out.println("Session ID: " + customer);
 //             System.out.println("Received name: " + name);
 //             System.out.println("Received email: " + email);
 //             System.out.println("Received paymentMethodId: " + paymentMethodId);
+//             
+//             return "redirect:/"; 
              
-             return "redirect:/"; 
-             
-         } 
-         catch (Exception e) {
+//         } 
+//         catch (Exception e) {
              // エラーハンドリング
 //             model.addAttribute("error", e.getMessage());
 //             return "error"; e.printStackTrace();
 //        	    throw new RuntimeException("予期しないエラーが発生しました。", e);
-        	 e.printStackTrace();
-        	    model.addAttribute("error", e.getMessage());
-        	    return "error";
+//        	 e.printStackTrace();
+//        	    model.addAttribute("error", e.getMessage());
+//        	    return "error";
          
-         }
+//         }
          
-     }
+     
      
  //  サブスク料金支払処理が成功した後の処理
      @GetMapping("/success")
