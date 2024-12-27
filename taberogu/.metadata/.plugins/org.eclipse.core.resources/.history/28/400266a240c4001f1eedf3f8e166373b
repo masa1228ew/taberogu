@@ -20,17 +20,12 @@ document.getElementById('cardButton').addEventListener('click', function(e) {
             // エラーハンドリング
             console.error(result.error.message);
         } else {
-			 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-			 if (!csrfToken) {
-    console.error('CSRF token is missing');
-}
             // バックエンドに支払い情報を送信
             fetch('/user/create-checkout-session', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//                     'X-CSRF-TOKEN': csrfToken // CSRFトークンをヘッダーにセット
+                    'Content-Type': 'application/json'
+//                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({ paymentMethodId: result.paymentMethod.id })
             }).then(function(response) {

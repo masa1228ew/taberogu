@@ -29,8 +29,8 @@ document.getElementById('cardButton').addEventListener('click', function(e) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//                     'X-CSRF-TOKEN': csrfToken // CSRFトークンをヘッダーにセット
+//                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                     'X-CSRF-TOKEN': csrfToken // CSRFトークンをヘッダーにセット
                 },
                 body: JSON.stringify({ paymentMethodId: result.paymentMethod.id })
             }).then(function(response) {

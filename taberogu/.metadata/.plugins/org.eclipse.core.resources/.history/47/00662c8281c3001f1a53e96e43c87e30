@@ -94,7 +94,6 @@ public class UserController {
      @PostMapping("/create-checkout-session")
      public ResponseEntity<String> subscribeUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
              @RequestParam String paymentMethodId) {
-    	 System.out.println("テスト");
 try {
 User user = userRepository.getReferenceById(userDetails.getUser().getId());
 
@@ -105,16 +104,12 @@ user.setCustomerId(customer.getId());
 userRepository.save(user);
 }
 
-System.out.println("テスト2");
-System.out.println("Name: " + user.getName());
 // 支払い方法を顧客に追加
 stripeService.attachPaymentMethodToCustomer(user.getCustomerId(), paymentMethodId);
 
 // 事前に作成したプランIDでサブスクリプションを作成
 String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai"; // 事前にStripeで作成したプランIDを指定します
-System.out.println(planId);
 Subscription subscription = stripeService.createSubscription(user.getCustomerId(), planId);
-
 
 return ResponseEntity.ok("Subscription successful: " + subscription.getId());
 

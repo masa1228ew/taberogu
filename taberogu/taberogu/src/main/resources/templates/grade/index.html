@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">    
     <head>
         <div th:replace="~{fragment :: meta}"></div>   
-             
+             <meta name="csrf-token" content="{{ csrf_token }}">
         <div th:replace="~{fragment :: styles}"></div>
           
         <title>メール認証</title>   
