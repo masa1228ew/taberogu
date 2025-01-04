@@ -1,5 +1,7 @@
 package com.example.taberogu.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,12 +28,14 @@ import com.example.taberogu.repository.UserRepository;
 import com.example.taberogu.security.UserDetailsImpl;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import com.stripe.model.PaymentMethod;
 import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/user")
 public class UserController {
  private final UserRepository userRepository;    
@@ -93,7 +99,9 @@ public class UserController {
 //     サブスク料金の支払い
      @PostMapping("/create-checkout-session")
      public ResponseEntity<String> subscribeUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
-             @RequestParam String paymentMethodId) {
+//             @RequestParam String paymentMethodId
+    		 @RequestBody Map<String, String> payload
+             ) {
     	 System.out.println("テスト");
 try {
 User user = userRepository.getReferenceById(userDetails.getUser().getId());
@@ -107,15 +115,38 @@ userRepository.save(user);
 
 System.out.println("テスト2");
 System.out.println("Name: " + user.getName());
-// 支払い方法を顧客に追加
-stripeService.attachPaymentMethodToCustomer(user.getCustomerId(), paymentMethodId);
 
+//String paymentMethodId = payload.get("paymentMethodId");
+//System.out.println("paymentMethodId: " + paymentMethodId);
+//if (paymentMethodId == null || paymentMethodId.isEmpty()) {
+//    return ResponseEntity.badRequest().body("PaymentMethodId is missing");
+//}
+// 支払い方法を顧客に追加
+//stripeService.attachPaymentMethodToCustomer(user.getCustomerId(), paymentMethodId);
+
+String customerId = user.getCustomerId();
+System.out.println("Customer ID: " + customerId);
+//顧客のデフォルト支払い方法を確認
+PaymentMethod defaultPaymentMethod = stripeService.getDefaultPaymentMethod(customerId);
+
+// デフォルト支払い方法が存在しない場合、新しい支払い方法を追加
+if (defaultPaymentMethod == null) {
+    System.out.println("No default payment method found, attaching a new one.");
+    String paymentMethodId = payload.get("paymentMethodId");
+    stripeService.attachPaymentMethodToCustomer(customerId, paymentMethodId);
+} else {
+    System.out.println("Default payment method found: " + defaultPaymentMethod.getId());
+}
+String paymentMethodId = payload.get("paymentMethodId");
+stripeService.updateSubscription(customerId,paymentMethodId);
+System.out.println("テスト紐付け");
 // 事前に作成したプランIDでサブスクリプションを作成
 String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai"; // 事前にStripeで作成したプランIDを指定します
-System.out.println(planId);
+System.out.println("プランID"+planId);
 Subscription subscription = stripeService.createSubscription(user.getCustomerId(), planId);
-
-
+System.out.println("テスト３");
+stripeService.upgradeUserRoleToPaidMember(user.getId());
+System.out.println("テスト4");
 return ResponseEntity.ok("Subscription successful: " + subscription.getId());
 
 } catch (StripeException e) {

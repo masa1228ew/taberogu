@@ -33,14 +33,17 @@
                                  <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
                              </div>               
                          </form>                        
-                     </div>                                                                                                  
+                     </div>   
+                     <div>
+						 <p>カテゴリ一覧は<a  th:href="@{/category}">こちら</a>から</p>
+					 </div>                                                                                               
                                                       
                      <h2 class="text-center mb-3">新着</h2>
                      <div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">                                        
                          <div class="col" th:each="newShop : ${newShop}">
                              <a th:href="@{/shop/__${newShop.getId()}__}" class="link-dark samuraitravel-card-link">
                                  <div class="card h-100">                                                                        
-                                     <img th:if="${newShop.getImageName()}" th:src="@{/storage/__${newShop.getImageName()}__}" class="card-img-top samuraitravel-vertical-card-image" alt="店舗画像">                                     
+                                     <img th:if="${newShop.getImageName()}" th:src="@{/strage/__${newShop.getImageName()}__}" class="card-img-top samuraitravel-vertical-card-image" alt="店舗画像">                                     
                                      <img th:unless="${newShop.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top samuraitravel-vertical-card-image" alt="NO IMAGE">                                                                                                                        
                                      <div class="card-body">                                    
                                          <h3 class="card-title" th:text="${newShop.getName()}"></h3>

@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">    
     <head>
         <div th:replace="~{fragment :: meta}"></div>   
-             <meta name="csrf-token" content="{{ csrf_token }}">
+             <meta name="csrf-token" th:content="${_csrf.token}">
         <div th:replace="~{fragment :: styles}"></div>
           
         <title>メール認証</title>   
@@ -38,7 +38,8 @@
 <!--                                <button class="btn text-white shadow-sm w-50 nagoyameshi-btn" id="cardButton">登録</button>-->
 <!--                            </div>   -->
 
-<form id="cardForm">
+<form id="cardForm"  th:action="@{/user/create-checkout-session}" method="post">
+	<input type="hidden" name="csrf-token" th:value="${_csrf.token}">
     <div id="cardElementError"></div>
     <input id="cardHolderName" type="text" placeholder="カード名義人" required>
     <div id="cardElement"></div>

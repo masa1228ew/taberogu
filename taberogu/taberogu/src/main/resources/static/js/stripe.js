@@ -1,6 +1,6 @@
 const stripe = Stripe('pk_test_51Q5unLBZ4UD9z1bMve2FOhVXnfb3Nzb51ghCQFK8KzKI0je1qfgayfTBcja04miG1xNMBZKQqXH9hfJmgRJ36rFC00Qte1CdJE');
 // const paymentButton = document.querySelector('#checkout-button');
- 
+ const csrfToken = document.querySelector('input[name="csrf-token"]').value;
  const elements = stripe.elements();
 const cardElement = elements.create('card');
 cardElement.mount('#cardElement');
@@ -30,14 +30,40 @@ document.getElementById('cardButton').addEventListener('click', function(e) {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    
+
 //                     'X-CSRF-TOKEN': csrfToken // CSRFトークンをヘッダーにセット
                 },
-                body: JSON.stringify({ paymentMethodId: result.paymentMethod.id })
+                
+                body: JSON.stringify({ 
+					paymentMethodId: result.paymentMethod.id
+//    				paymentMethodId: 'pm_exampleId',  
+                
+                })
             }).then(function(response) {
                 return response.json();
-            }).then(function(subscriptionResponse) {
+            }).then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error))
+            .then(function(subscriptionResponse) {
                 console.log(subscriptionResponse);
-            });
+            })
+            .then(response => {
+    if (!response.ok) {
+        return response.json().then(error => {
+            throw new Error(error.message);
+        });
+    }
+    
+    return response.json();
+})
+.catch(error => {
+    alert(`エラー: ${error.message}`);
+});;
+//            if (result.error) {
+//    document.getElementById('cardElementError').textContent = result.error.message;
+//}
+
         }
     });
 });

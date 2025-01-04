@@ -24,7 +24,7 @@
 			  <nav class="navbar navbar-light">
 			<div class="container">
 				<a class="navbar-brand" th:href="@{/}">
-					ロゴ
+					NAGOYAMESI
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                          <span class="navbar-toggler-icon"></span>
@@ -48,8 +48,8 @@
          
                                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">    
 									 <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/user}">会員情報</a>  
-									 <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/reservations}">予約一覧</a>  
-                                     <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/fav}">お気に入り一覧</a>
+<!--									 <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/reservations}">予約一覧</a>  -->
+<!--                                     <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/fav}">お気に入り一覧</a>-->
 <!--                                     <span sec:authentication="principal.user.name">-->
                                      <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/grade}">有料会員登録</a>
 <!--                                     </span>-->
@@ -61,6 +61,27 @@
                                  </div>
                              </li>                       
                                  
+                                 <!-- 有料会員であれば表示する --> 
+                             <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_PAID_MEMBER')">
+                                 <a id="navbarDropdownGeneral" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                     <span sec:authentication="principal.user.name"></span>
+                                 </a>
+         
+                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">    
+									 <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/user}">会員情報</a>  
+									 <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/reservations}">予約一覧</a>  
+                                     <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/fav}">お気に入り一覧</a>
+<!--                                     <span sec:authentication="principal.user.name">-->
+<!--                                     <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/grade}">有料会員登録</a>-->
+<!--                                     </span>-->
+                                     <div class="dropdown-divider"></div>                                                              
+                                     <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                         ログアウト
+                                     </a>
+                                     <form class="d-none" id="logout-form" th:action="@{/logout}" method="post"></form>                                     
+                                 </div>
+                             </li>  
+                             
                              <!-- 管理者であれば表示する -->    
                              <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
                                  <a id="navbarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -10,7 +10,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.taberogu.entity.Role;
 import com.example.taberogu.entity.User;
+import com.example.taberogu.repository.RoleRepository;
 import com.example.taberogu.repository.UserRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -26,10 +28,14 @@ import com.stripe.param.SubscriptionListParams;
 @Service
 public class StripeService {
 	 private final UserRepository userRepository;
+	 private final RoleRepository roleRepository;
+	 @Value("${stripe.api-key}")
+	    private String stripeApiKey;
 //	 private static final Logger logger = LoggerFactory.getLogger(StripeService.class);
 	 
-	 public StripeService(UserRepository userRepository) {
+	 public StripeService(UserRepository userRepository,RoleRepository roleRepository) {
 		 this.userRepository = userRepository;
+		 this.roleRepository = roleRepository;
 	 }
 	// Spring FrameworkやSpring BootなどのJavaベースのフレームワークで使用されるアノテーション
 		// ・Springの依存性注入機能を使用して、外部の構成ファイルや環境変数から値を注入するために使用される
@@ -95,8 +101,8 @@ public class StripeService {
 //		}
 	
 	
-	 @Value("${stripe.api-key}")
-	    private String stripeApiKey;
+//	 @Value("${stripe.api-key}")
+//	    private String stripeApiKey;
 	    
 	    public Customer createCustomer(User user) {
 	        Stripe.apiKey = stripeApiKey;
@@ -151,6 +157,7 @@ public class StripeService {
 	    }
 	    
 	    public PaymentMethod getDefaultPaymentMethod(String customerId) {
+	    	Stripe.apiKey = stripeApiKey;
 	        try {
 	            Map<String, Object> params = new HashMap<>();
 	            params.put("customer", customerId);
@@ -185,6 +192,12 @@ public class StripeService {
 
 	    }
 	    
+//	    public void setDefaultPaymentMethod(String customerId, String paymentMethodId) throws StripeException {
+//	        Map<String, Object> params = new HashMap<>();
+//	        params.put("invoice_settings", Map.of("default_payment_method", paymentMethodId)); // デフォルトの支払い方法を設定
+//	        Customer updatedCustomer = Customer.update(customerId, params);
+//	    }
+	    
 	    public String getDefaultPaymentMethodId(String customerId) throws StripeException {
 	        Customer customer = Customer.retrieve(customerId);
 	        return customer.getInvoiceSettings().getDefaultPaymentMethod();
@@ -194,6 +207,22 @@ public class StripeService {
 	        PaymentMethod paymentMethod = PaymentMethod.retrieve(paymentMethodId);
 	        paymentMethod.detach();
 
+	    }
+
+	    
+	    public void upgradeUserRoleToPaidMember(Integer userId) {
+	        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+//	        user.setRole(3); // 適切なロール名を使用
+//	        userRepository.save(user);
+	     // Roleテーブルから"PAID_MEMBER"に対応するRoleを取得
+	        Role paidMemberRole = roleRepository.findByName("ROLE_PAID_MEMBER");
+	        if (paidMemberRole == null) {
+	            throw new RuntimeException("Role 'ROLE_PAID_MEMBER' not found");
+	        }
+
+	        // UserにRoleを設定
+	        user.setRole(paidMemberRole);
+	        userRepository.save(user);
 	    }
 	    
 	    public Subscription getSubscription(String customerId) {

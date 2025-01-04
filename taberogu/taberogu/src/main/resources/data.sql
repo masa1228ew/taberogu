@@ -1,5 +1,8 @@
 INSERT IGNORE INTO category(id,category) VALUES(1,'和食');
 INSERT IGNORE INTO category(id,category) VALUES(2,'洋食');
+INSERT IGNORE INTO roles (id, name) VALUES (1, 'ROLE_GENERAL');
+INSERT IGNORE INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');
+INSERT IGNORE INTO roles (id, name) VALUES (3, 'ROLE_PAID_MEMBER');
 
 INSERT IGNORE INTO shop (id, name, image_name, description, category_id, address, phone_number,email,created_at, updated_at) VALUES (1, 'SAMURAIの宿', 'yakitori01.jpg', '最寄り駅から徒歩10分。自然豊かで閑静な場所にあります。長期滞在も可能です。', 1, '北海道砂川市西五条南X-XX-XX','090-1111-1111', 'taro.samurai@example.com','2023-04-20','2023-04-20');
 INSERT IGNORE INTO shop (id, name, image_name, description, category_id, address, phone_number,email,created_at, updated_at) VALUES (2, 'SAMURAIの宿', 'yakitori01.jpg', '最寄り駅から徒歩10分。自然豊かで閑静な場所にあります。長期滞在も可能です。', 1, '北海道砂川市西五条南X-XX-XX','090-1111-1111', 'taro.samurai@example.com','2023-04-20','2023-04-20');
@@ -23,9 +26,6 @@ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled,
 INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled, created_at, updated_at) VALUES (7,'真田幸村','サナダ ユキムラ','sanada@email.com','$2a$10$RgvZi/8lW9Yn1PFerRKVGeHXryk/U8xKFO2f1xrLNOIxlqcIlnHcO',1,1,'2024-11-27 20:34:03','2024-11-29 19:20:27');
 INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled, created_at, updated_at) VALUES (8,'山田次郎','やまだじろう','jiro.samurai@example.com','$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO',1,1,'2023-04-20 00:00:00','2023-04-20 00:00:00');
 INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled, created_at, updated_at) VALUES (9,'山田三郎','やまださぶろう','sabu.samurai@example.com','$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO',2,1,'2023-04-20 00:00:00','2023-04-20 00:00:00');
-INSERT IGNORE INTO roles (id, name) VALUES (1, 'ROLE_GENERAL');
-INSERT IGNORE INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');
-INSERT IGNORE INTO roles (id, name) VALUES (3, 'ROLE_PAID_MEMBER');
 
 INSERT IGNORE INTO reservations (id, shop_id, user_id, checkin_date,created_at, updated_at) VALUES (1, 1, 1, '2023-04-01','2023-04-20','2023-04-20');
 
