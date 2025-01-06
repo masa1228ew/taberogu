@@ -68,7 +68,7 @@
 <!--<textarea class="form-control" th:field="*{category}" cols="30" rows="5"></textarea>-->
 							<label for="category" class="col-form-label text-md-left fw-bold">カテゴリ</label>
 <div class="col-md-8">
-    <div th:if="${#fields.hasErrors('categoryId')}" class="text-danger small mb-2" th:errors="*{categoryId}"></div>
+    <div th:if="${#fields.hasErrors('category')}" class="text-danger small mb-2" th:errors="*{category}"></div>
     <select class="form-control" th:field="*{category.id}" th:required="true">
         <option value="" th:text="#{select.category}"></option> <!-- プロンプトとして表示 -->
         <option th:each="category : ${categories}" th:value="${categoryId.category.id}" th:text="${category.name}">

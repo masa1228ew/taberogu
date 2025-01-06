@@ -92,23 +92,27 @@ public class AdminShopController {
      @GetMapping("/{id}/edit")
      public String edit(@PathVariable(name = "id") Integer id, Model model) {
          Shop shop = shopRepository.getReferenceById(id);
-        
+         Category category = shop.getCategory();
+
          String imageName = shop.getImageName();
-         List<Category> categories = categoryRepository.findAll();
-         System.out.println(categories);
+//         List<Category> categories = categoryRepository.findAll();
+//         System.out.println(categories);
          ShopEditForm form = new ShopEditForm(
         		 shop.getId(), shop.getName(),null, shop.getDescription(), 
         		 shop.getAddress(), shop.getPhoneNumber(), shop.getEmail()
 //        		 ,shop.getCategory().getId()
         		 , (shop.getCategory() != null) ? shop.getCategory().getId() : null
         		 );
+//         Category category = shop.getCategory();
+
 //        		 );
         
 //         form.setCategory(shop.getCategory());
          model.addAttribute("shopEditForm", form);
          model.addAttribute("imageName", imageName);
-         model.addAttribute("categories", categories);
-         System.out.println(categories);
+         model.addAttribute("category", category);
+//         model.addAttribute("categories", categories);
+//         System.out.println(categories);
          return "/admin/shop/edit";
      }
      

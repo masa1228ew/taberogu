@@ -6,7 +6,7 @@
 		
 		<div th:replace="~{fragment::styles}"></div>
 		
-		<title>お気に入り民宿一覧</title>
+		<title>お気に入り店舗一覧</title>
 	</head>
 	<body>
 		<div class="samuraitravel-wrapper">
@@ -17,7 +17,7 @@
 					<div class="row justify-content-center">
 						<div class="col-xxl-9 col-xl-10 col-lg-11">
 							
-							<h1 class="mb-4 text-center">お気に入り民宿一覧</h1>
+							<h1 class="mb-4 text-center">お気に入り店舗一覧</h1>
 							
 							
 							
@@ -55,7 +55,7 @@
                              </div>
                              
                               <div th:if="${favPage.getTotalPages() > 1}" class="d-flex justify-content-center">
-                                 <nav aria-label="民宿一覧ページ">
+                                 <nav aria-label="店舗一覧ページ">
                                      <ul class="pagination">
                                          <li class="page-item">
                                              <span th:if="${favPage.isFirst()}" class="page-link disabled">前</span>

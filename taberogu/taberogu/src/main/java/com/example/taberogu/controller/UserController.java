@@ -159,17 +159,17 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 //     @PostMapping("/cancel")
      
      @GetMapping("/cancel")
-     public String showCancelPage(@RequestParam("session_Id") String sessionId, Model model, RedirectAttributes redirectAttributes) {
+     public String showCancelPage(@RequestParam String paymentMethodId, Model model, RedirectAttributes redirectAttributes) {
          // 必要に応じてモデルにデータを追加
-         model.addAttribute("session_Id", sessionId);
+         model.addAttribute("paymentMethodId", paymentMethodId);
          return "cancel"; // cancel.htmlまたは対応するテンプレート名
      }
 
      // 解約ボタンのPOSTリクエストのハンドラー
      @PostMapping("/cancel")
-     public String cancelSubscription(@RequestParam String subscriptionId, Model model) {
+     public String cancelSubscription(@RequestParam String paymentMethodId, Model model) {
          try {
-             Subscription subscription = Subscription.retrieve(subscriptionId);
+             Subscription subscription = Subscription.retrieve(paymentMethodId);
              subscription.cancel();
              model.addAttribute("message", "Subscription canceled successfully.");
          } catch (StripeException e) {
@@ -182,10 +182,12 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 
      
      @PostMapping("/cancel-subscription")
-     public String cancelSubscription(@RequestParam String subscriptionId) {
+     public String cancelSubscription(@RequestParam String paymentMethodId) {
          try {
-             Subscription subscription = Subscription.retrieve(subscriptionId);
-             subscription.cancel();
+//             Subscription subscription = Subscription.retrieve(paymentMethodId);
+//             subscription.cancel();
+        	 Subscription subscription = Subscription.retrieve(paymentMethodId);
+        	 subscription.cancel();
              return "Subscription canceled successfully.";
          } catch (StripeException e) {
              e.printStackTrace();
