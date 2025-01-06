@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="リソース名 &apos;taberogu/src/main/resources/static/strage&apos; を &apos;storage&apos; に変更します" description="リソース &apos;strage&apos; の名前変更" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/static/strage" name="storage" stamp="1736128307133" updateReferences="true"/>
+</session>

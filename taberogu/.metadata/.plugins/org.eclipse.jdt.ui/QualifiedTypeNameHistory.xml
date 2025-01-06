@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.example.taberogu.entity.Shop"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
@@ -21,7 +20,6 @@
     <fullyQualifiedTypeName name="com.example.taberogu.repository.CategoryRepository"/>
     <fullyQualifiedTypeName name="com.example.taberogu.form.CategoryEditForm"/>
     <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
-    <fullyQualifiedTypeName name="com.example.taberogu.entity.Category"/>
     <fullyQualifiedTypeName name="jakarta.validation.constraints.NotBlank"/>
     <fullyQualifiedTypeName name="com.example.taberogu.Service.CategoryService"/>
     <fullyQualifiedTypeName name="jakarta.validation.constraints.NotNull"/>
@@ -60,4 +58,6 @@
     <fullyQualifiedTypeName name="com.stripe.model.PaymentMethod"/>
     <fullyQualifiedTypeName name="com.example.taberogu.repository.RoleRepository"/>
     <fullyQualifiedTypeName name="com.example.taberogu.entity.Role"/>
+    <fullyQualifiedTypeName name="com.example.taberogu.entity.Category"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
 </qualifiedTypeNameHistroy>

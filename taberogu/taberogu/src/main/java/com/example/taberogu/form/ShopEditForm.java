@@ -15,8 +15,17 @@ public class ShopEditForm {
 	 private final String address;
 	 private final String phoneNumber;
 	 private final String email;
+//	 private final Category category;
+//	 private final Integer category;
+	 private final Integer categoryId;
 	 
-	 private Integer categoryId;
+//	 public Integer getCategory() {
+//	        return category;
+//	    }
+
+//	    public void setCategory(Integer category) {
+//	        this.category = category;
+//	    }
 //	 @NotNull
 //     private Integer id; 
 	 

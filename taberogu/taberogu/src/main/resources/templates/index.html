@@ -5,7 +5,7 @@
               
          <div th:replace="~{fragment :: styles}"></div>
         
-        <title>SAMURAI Travel</title>	
+        <title>NAGOYAMESI</title>	
     </head>
     <body>
 		
@@ -43,7 +43,7 @@
                          <div class="col" th:each="newShop : ${newShop}">
                              <a th:href="@{/shop/__${newShop.getId()}__}" class="link-dark samuraitravel-card-link">
                                  <div class="card h-100">                                                                        
-                                     <img th:if="${newShop.getImageName()}" th:src="@{/strage/__${newShop.getImageName()}__}" class="card-img-top samuraitravel-vertical-card-image" alt="店舗画像">                                     
+                                     <img th:if="${newShop.getImageName()}" th:src="@{/storage/__${newShop.getImageName()}__}" class="card-img-top samuraitravel-vertical-card-image" alt="店舗画像">                                     
                                      <img th:unless="${newShop.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top samuraitravel-vertical-card-image" alt="NO IMAGE">                                                                                                                        
                                      <div class="card-body">                                    
                                          <h3 class="card-title" th:text="${newShop.getName()}"></h3>

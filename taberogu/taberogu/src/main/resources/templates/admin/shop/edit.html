@@ -25,7 +25,7 @@
 							 <h1 class="mb-4 text-center">店舗情報編集</h1>
 							 
 							 <form method="post" th:action="@{/admin/shop/_${shopEditForm.getId()}_/update}"th:object="${shopEditForm}"enctype="multipart/form-data">
-								 <input type="hidden" th:field="*{id}">
+								 <input type="hidden" th:field="*{id}" name="id" value="${shopEditForm.id}">
 								 
 								 <div class="form-group row mb-3">
 									<div class="col-md-4">
@@ -60,13 +60,22 @@
 										
 									</div>
 									<div class="form-group row mb-3">	
-<div class="col-md-4">	
-<label for=" category" class="col-form-label text-md-left fw-bold">カテゴリ</label>
-</div>	
-<div class="col-md-8">	
-<div th:if="${#fields.hasErrors('category')}" class="text-danger small mb-2" th:errors="*{category}"></div>	
-<textarea class="form-control" th:field="*{category}" cols="30" rows="5"></textarea>
-									        
+<!--<div class="col-md-4">	-->
+<!--<label for=" category" class="col-form-label text-md-left fw-bold">カテゴリ</label>-->
+<!--</div>	-->
+<!--<div class="col-md-8">	-->
+<!--<div th:if="${#fields.hasErrors('category')}" class="text-danger small mb-2" th:errors="*{category}"></div>	-->
+<!--<textarea class="form-control" th:field="*{category}" cols="30" rows="5"></textarea>-->
+							<label for="category" class="col-form-label text-md-left fw-bold">カテゴリ</label>
+<div class="col-md-8">
+    <div th:if="${#fields.hasErrors('categoryId')}" class="text-danger small mb-2" th:errors="*{categoryId}"></div>
+    <select class="form-control" th:field="*{category.id}" th:required="true">
+        <option value="" th:text="#{select.category}"></option> <!-- プロンプトとして表示 -->
+        <option th:each="category : ${categories}" th:value="${categoryId.category.id}" th:text="${category.name}">
+        </option>
+    </select>
+</div>
+		        
                                
                                   <div class="form-group row mb-3">
                                      <div class="col-md-4">

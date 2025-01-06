@@ -40,9 +40,10 @@ public class ShopService {
          shop.setAddress(form.getAddress());
          shop.setPhoneNumber(form.getPhoneNumber());
          shop.setEmail(form.getEmail());
-
-         Category category = categoryRepository.findById(form.getCategoryId()).orElseThrow(() -> new NoSuchElementException("カテゴリが見つかりません"));
-         shop.setCategory(category);
+//         shop.setCategory(form.getCategory());
+         
+//         Category category = categoryRepository.findById(form.getCategory()).orElseThrow(() -> new NoSuchElementException("カテゴリが見つかりません"));
+//         shop.setCategory(category);
 
          shopRepository.save(shop);
      }

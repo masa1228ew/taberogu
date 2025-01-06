@@ -156,7 +156,43 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 }
 }
 
+//     @PostMapping("/cancel")
+     
+     @GetMapping("/cancel")
+     public String showCancelPage(@RequestParam("session_Id") String sessionId, Model model, RedirectAttributes redirectAttributes) {
+         // 必要に応じてモデルにデータを追加
+         model.addAttribute("session_Id", sessionId);
+         return "cancel"; // cancel.htmlまたは対応するテンプレート名
+     }
 
+     // 解約ボタンのPOSTリクエストのハンドラー
+     @PostMapping("/cancel")
+     public String cancelSubscription(@RequestParam String subscriptionId, Model model) {
+         try {
+             Subscription subscription = Subscription.retrieve(subscriptionId);
+             subscription.cancel();
+             model.addAttribute("message", "Subscription canceled successfully.");
+         } catch (StripeException e) {
+             e.printStackTrace();
+             model.addAttribute("message", "Failed to cancel subscription: " + e.getMessage());
+         }
+         // 処理結果を表示する別ページに遷移するか、そのままキャンセルページを更新
+         return "cancelResult"; // フィードバック表示用のページ名（例: cancelResult.html）
+     }
+
+     
+     @PostMapping("/cancel-subscription")
+     public String cancelSubscription(@RequestParam String subscriptionId) {
+         try {
+             Subscription subscription = Subscription.retrieve(subscriptionId);
+             subscription.cancel();
+             return "Subscription canceled successfully.";
+         } catch (StripeException e) {
+             e.printStackTrace();
+             return "Failed to cancel subscription: " + e.getMessage();
+         }
+     }
+ 
 //     public String createCheckoutSession(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, HttpServletRequest httpServletRequest, Model model
 //    		                             ,@RequestParam String name, 
 //                                         @RequestParam String email, 
@@ -271,9 +307,9 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 //         return "success";  // success.htmlテンプレートを表示
 //     }
 
-     @GetMapping("/cancel")
-     public String cancelPage(Model model) {
-         model.addAttribute("message", "支払いがキャンセルされました。再度試してください。");
-         return "cancel";  // cancel.htmlテンプレートを表示
-     }
+//     @GetMapping("/cancel")
+//     public String cancelPage(Model model) {
+//         model.addAttribute("message", "支払いがキャンセルされました。再度試してください。");
+//         return "cancel";  // cancel.htmlテンプレートを表示
+//     }
 }
