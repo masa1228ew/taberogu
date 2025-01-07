@@ -20,6 +20,11 @@ public class Category {
 	 
 	 @Column(name="category")
 	 private String category;
+
+//	public Category getName() {
+//		 TODO 自動生成されたメソッド・スタブ
+//		return null;
+//	}
 	 
 //	  @OneToMany(mappedBy = "category")
 //	    private List<Shop> shops;

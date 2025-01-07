@@ -93,7 +93,12 @@ public class AdminShopController {
      public String edit(@PathVariable(name = "id") Integer id, Model model) {
          Shop shop = shopRepository.getReferenceById(id);
          Category category = shop.getCategory();
-
+         List<Category> categories = categoryRepository.findAll();
+         String categoryName = shop.getCategory().getCategory();
+         Integer categoryId = shop.getCategory().getId();
+         System.out.println(categoryId);
+         System.out.println(category);
+         System.out.println(categoryName);
          String imageName = shop.getImageName();
 //         List<Category> categories = categoryRepository.findAll();
 //         System.out.println(categories);
@@ -111,25 +116,29 @@ public class AdminShopController {
          model.addAttribute("shopEditForm", form);
          model.addAttribute("imageName", imageName);
          model.addAttribute("category", category);
-//         model.addAttribute("categories", categories);
-//         System.out.println(categories);
+         model.addAttribute("categoryId", categoryId);
+         model.addAttribute("categoryName", categoryName);
+         model.addAttribute("categories", categories);
+         System.out.println(categories);
+//         System.out.println(categoryId);
          return "/admin/shop/edit";
      }
      
      @PostMapping("/{id}/edit")
      public String updateShop(@PathVariable(name = "id") Integer id, @ModelAttribute ShopEditForm form
     		 				  ,BindingResult result, Model model) {
+    	 System.out.println("テスト");
     	   if (result.hasErrors()) {
     	        List<Category> categories = categoryRepository.findAll();
     	        model.addAttribute("categories", categories);
     	        return "/admin/shop/edit"; // エラーページにリダイレクトします
     	    }
     	   
-    	   
+    	   System.out.println("テスト");
     	   
          Shop shop = shopRepository.getReferenceById(id);
-         Category category = categoryRepository.findById(form.getCategoryId()).orElse(null);
-         
+         Category category = categoryRepository.findById(form.getCategory()).orElse(null);
+         System.out.println(category);
          if (category != null) {
              shop.setCategory(category);
          }
@@ -142,8 +151,10 @@ public class AdminShopController {
          
          shopRepository.save(shop);
          
+         
          return "redirect:/admin/shop";
      }
+     
      
      @PostMapping("/edit")
      public String handleEditForm(@ModelAttribute ShopEditForm shopEditForm) {

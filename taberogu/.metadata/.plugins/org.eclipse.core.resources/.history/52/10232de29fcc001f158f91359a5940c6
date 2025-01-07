@@ -1,0 +1,58 @@
+import React from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, useStripe, useElements } from '@stripe/react-stripe-js';
+import UpdatePaymentForm from './UpdatePaymentForm';
+
+// Stripeのパブリッシュ可能なキーで初期化します
+const stripePromise = loadStripe('pk_test_12345');
+
+function UpdatePaymentMethod() {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const response = await fetch('/update-payment-method', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        paymentMethodId: paymentMethod.id,
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Payment method updated successfully');
+    } else {
+      console.error('Failed to update payment method');
+    }
+  };
+
+  return (
+    <div style={{ padding: '2rem', textAlign: 'center' }}>
+      <Elements stripe={stripePromise}>
+        <UpdatePaymentForm handleSubmit={handleSubmit} />
+      </Elements>
+    </div>
+  );
+}
+
+export default UpdatePaymentMethod;

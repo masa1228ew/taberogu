@@ -1,0 +1,90 @@
+import React from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import UpdatePaymentForm from './UpdatePaymentForm';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+
+// Stripeのパブリッシュ可能なキーで初期化します
+const stripePromise = loadStripe('pk_test_12345');
+
+function UpdatePaymentMethod() {
+  return (
+    <Elements stripe={stripePromise}>
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <h2>クレジットカード情報を更新</h2>
+        <UpdatePaymentForm />
+      </div>
+    </Elements>
+  );
+}
+
+export default UpdatePaymentMethod;
+
+const UpdatePaymentForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const response = await fetch('/update-payment-method', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        paymentMethodId: paymentMethod.id,
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Payment method updated successfully');
+    } else {
+      console.error('Failed to update payment method');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                  color: '#aab7c4',
+                },
+              },
+              invalid: {
+                color: '#9e2146',
+              },
+            },
+          }}
+        />
+      </div>
+      <button type="submit" disabled={!stripe || !elements}>
+        Update Payment Method
+      </button>
+    </form>
+  );
+};
+
+export default UpdatePaymentForm;

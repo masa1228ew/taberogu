@@ -16,8 +16,8 @@ public class ShopEditForm {
 	 private final String phoneNumber;
 	 private final String email;
 //	 private final Category category;
-//	 private final Integer category;
-	 private final Integer categoryId;
+	 private final Integer category;
+//	 private final Integer categoryId;
 	 
 //	 public Integer getCategory() {
 //	        return category;

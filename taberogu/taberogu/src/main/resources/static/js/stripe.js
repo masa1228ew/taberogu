@@ -119,7 +119,6 @@ document.getElementById('cardButton').addEventListener('click', function(e) {
 
 
 
-
 // paymentButton.addEventListener('click', () => {
 //	  console.log(sessionId);
 //   stripe.redirectToCheckout({

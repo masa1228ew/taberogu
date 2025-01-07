@@ -159,42 +159,116 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 //     @PostMapping("/cancel")
      
      @GetMapping("/cancel")
-     public String showCancelPage(@RequestParam String paymentMethodId, Model model, RedirectAttributes redirectAttributes) {
+     public String showCancelPage(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,Model model) throws StripeException {
          // 必要に応じてモデルにデータを追加
-         model.addAttribute("paymentMethodId", paymentMethodId);
-         return "cancel"; // cancel.htmlまたは対応するテンプレート名
+    	 User user = userDetailsImpl.getUser();
+//    	 try {
+//    	 String customerId = user.getCustomerId();
+//    	 String paymentMethodId =  stripeService.getPaymentMethodIdForUser(customerId);
+//    	 model.addAttribute("paymentMethodId", paymentMethodId);
+//    	 } catch (StripeException e) {
+//    		 e.printStackTrace();
+//    	         エラーハンドリング
+//    	    }
+    	 
+         return "user/cancel"; // cancel.htmlまたは対応するテンプレート名
      }
 
      // 解約ボタンのPOSTリクエストのハンドラー
-     @PostMapping("/cancel")
-     public String cancelSubscription(@RequestParam String paymentMethodId, Model model) {
-         try {
-             Subscription subscription = Subscription.retrieve(paymentMethodId);
-             subscription.cancel();
-             model.addAttribute("message", "Subscription canceled successfully.");
-         } catch (StripeException e) {
-             e.printStackTrace();
-             model.addAttribute("message", "Failed to cancel subscription: " + e.getMessage());
-         }
+//     @PostMapping("/cancel")
+//     public String cancelSubscription(@RequestParam String paymentMethodId, Model model) {
+//         try {
+//             Subscription subscription = Subscription.retrieve(paymentMethodId);
+//             subscription.cancel();
+//             model.addAttribute("message", "Subscription canceled successfully.");
+//         } catch (StripeException e) {
+//             e.printStackTrace();
+//             model.addAttribute("message", "Failed to cancel subscription: " + e.getMessage());
+//         }
          // 処理結果を表示する別ページに遷移するか、そのままキャンセルページを更新
-         return "cancelResult"; // フィードバック表示用のページ名（例: cancelResult.html）
-     }
+//         return "user/cancelResult"; // フィードバック表示用のページ名（例: cancelResult.html）
+//     }
 
      
      @PostMapping("/cancel-subscription")
-     public String cancelSubscription(@RequestParam String paymentMethodId) {
-         try {
-//             Subscription subscription = Subscription.retrieve(paymentMethodId);
-//             subscription.cancel();
-        	 Subscription subscription = Subscription.retrieve(paymentMethodId);
-        	 subscription.cancel();
-             return "Subscription canceled successfully.";
-         } catch (StripeException e) {
-             e.printStackTrace();
-             return "Failed to cancel subscription: " + e.getMessage();
-         }
+     public String cancelSubscriptionbtn(@RequestParam String paymentMethodId, Model model
+    		 							,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    	 User user = userRepository.getReferenceById(userDetails.getUser().getId());
+    	    String customerId = user.getCustomerId();
+    	 System.out.println("テスト");
+//    	 User user = userDetailsImpl.getUser();
+//    	 String customerId = user.getCustomerId();
+//    	 String paymentMethodId =  stripeService.getPaymentMethodIdForUser(customerId); 
+    	   try {
+    	        // サブスクリプションIDを取得
+    		   System.out.println("テスト2");
+    	        String subscriptionId = stripeService.getSubscriptionIdForUser(customerId);
+    	        System.out.println("subscriptionId"+subscriptionId);
+    	        if (subscriptionId == null) {
+    	            model.addAttribute("message", "No active subscription found.");
+    	            return "user/cancelResult";
+    	        }
+
+    	        // サブスクリプションをキャンセル
+    	        Subscription subscription = Subscription.retrieve(subscriptionId);
+    	        subscription.cancel();
+
+    	        model.addAttribute("message", "Subscription canceled successfully.");
+    	    } catch (StripeException e) {
+    	        e.printStackTrace();
+    	        model.addAttribute("message", "Failed to cancel subscription: " + e.getMessage());
+    	    }
+    	   stripeService.upgradeUserRoleToGeneralMember(user.getId());
+    	   System.out.println("テスト3");
+    	    return "user/cancelResult"; // 操作結果を表示するページ
+    	}
+     
+     
+     @GetMapping("/change")
+     public String change( @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+    	 User user = userDetailsImpl.getUser(); 
+//    	 UserGradeRegisterForm userGradeRegisterForm = new userGradeRegisterForm( user.getId(),user.getEmail() );
+         
+//    	  String sessionId = stripeService.createStripeSession( user.getName(), httpServletRequest);
+//    	  model.addAttribute("userGradenRegisterForm", userGradeRegisterForm);  
+//          model.addAttribute("sessionId", sessionId);
+          
+          return "user/change";
      }
  
+     @PostMapping("/update-payment-method")
+     public ResponseEntity<String> updatePaymentMethod(
+         @AuthenticationPrincipal UserDetailsImpl userDetails,
+         @RequestBody Map<String, String> payload) {
+    	 System.out.println("テスト");
+         try {
+             User user = userRepository.getReferenceById(userDetails.getUser().getId());
+             String customerId = user.getCustomerId();
+             if (customerId == null) {
+                 return ResponseEntity.badRequest().body("Customer ID not found");
+             }
+             System.out.println("テスト1.5");
+             String newPaymentMethodId = payload.get("paymentMethodId");
+             if (newPaymentMethodId == null || newPaymentMethodId.isEmpty()) {
+                 return ResponseEntity.badRequest().body("New payment method ID is missing");
+             }
+             System.out.println("テスト2");
+             // 新しい支払い方法を顧客に追加
+             stripeService.attachPaymentMethodToCustomer(customerId, newPaymentMethodId);
+             System.out.println("テスト3");
+             // 顧客のデフォルト支払い方法を更新
+             stripeService.updateDefaultPaymentMethod(customerId, newPaymentMethodId);
+             System.out.println("テスト4");
+             return ResponseEntity.ok("Payment method updated successfully");
+             
+         } catch (StripeException e) {
+             e.printStackTrace();
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                 .body("Error while updating payment method: " + e.getMessage());
+         }
+     }
+     
+     
 //     public String createCheckoutSession(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, HttpServletRequest httpServletRequest, Model model
 //    		                             ,@RequestParam String name, 
 //                                         @RequestParam String email, 

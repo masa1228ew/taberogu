@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
     <fullyQualifiedTypeName name="lombok.Data"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
@@ -30,7 +28,6 @@
     <fullyQualifiedTypeName name="com.example.taberogu.form.ReservationRegisterForm"/>
     <fullyQualifiedTypeName name="com.example.taberogu.Service.StripeService"/>
     <fullyQualifiedTypeName name="com.example.taberogu.security.UserDetailsImpl"/>
-    <fullyQualifiedTypeName name="org.springframework.security.core.annotation.AuthenticationPrincipal"/>
     <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
     <fullyQualifiedTypeName name="com.stripe.exception.StripeException"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
@@ -54,10 +51,13 @@
     <fullyQualifiedTypeName name="com.stripe.model.PaymentIntent"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="com.stripe.model.PaymentMethod"/>
     <fullyQualifiedTypeName name="com.example.taberogu.repository.RoleRepository"/>
     <fullyQualifiedTypeName name="com.example.taberogu.entity.Role"/>
     <fullyQualifiedTypeName name="com.example.taberogu.entity.Category"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+    <fullyQualifiedTypeName name="com.stripe.param.CustomerUpdateParams"/>
+    <fullyQualifiedTypeName name="org.springframework.security.core.annotation.AuthenticationPrincipal"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="com.stripe.model.SubscriptionCollection"/>
 </qualifiedTypeNameHistroy>

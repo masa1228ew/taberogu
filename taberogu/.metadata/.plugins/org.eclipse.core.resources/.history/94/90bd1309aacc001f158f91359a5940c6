@@ -1,0 +1,49 @@
+const stripe = Stripe('pk_test_12345');
+const elements = stripe.elements();
+
+document.addEventListener('DOMContentLoaded', () => {
+  // カード要素を作成
+  const cardElement = elements.create('card', {
+    hidePostalCode: true, // 郵便番号入力を非表示にするオプション
+  });
+  cardElement.mount('#card-element'); // カード要素をHTML内の指定IDにマウント
+
+  // フォームの送信イベントを処理
+  document.getElementById('payment-form').addEventListener('submit', async (event) => {
+    event.preventDefault(); // フォームのデフォルト動作をキャンセル
+
+    // Stripe.jsが初期化されているか確認
+    if (!stripe || !elements) {
+      console.error('Stripe.jsが正しく初期化されていません。');
+      return;
+    }
+
+    // 支払い方法を作成
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+
+    if (error) {
+      console.error('支払い方法の作成中にエラーが発生しました:', error.message);
+      return;
+    }
+
+    // サーバーに支払い方法を送信
+    const response = await fetch('/update-payment-method', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        paymentMethodId: paymentMethod.id,
+      }),
+    });
+
+    if (response.ok) {
+      alert('支払い方法が正常に更新されました！');
+    } else {
+      console.error('支払い方法の更新に失敗しました。');
+    }
+  });
+});
