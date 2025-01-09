@@ -121,7 +121,7 @@ public class AdminShopController {
          model.addAttribute("categories", categories);
          System.out.println(categories);
 //         System.out.println(categoryId);
-         return "/admin/shop/edit";
+         return "admin/shop/edit";
      }
      
      @PostMapping("/{id}/edit")

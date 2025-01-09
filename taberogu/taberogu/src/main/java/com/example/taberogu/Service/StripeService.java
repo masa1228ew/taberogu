@@ -308,6 +308,8 @@ public class StripeService {
 	        customer.update(params);
 	    }
 	    
+	 
+	    
 	    
 
 	    public String getSubscriptionIdForUser(String customerId) throws StripeException {

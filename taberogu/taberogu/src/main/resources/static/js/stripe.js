@@ -41,25 +41,37 @@ document.getElementById('cardButton').addEventListener('click', function(e) {
                 
                 })
             }).then(function(response) {
-                return response.json();
-            }).then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error))
-            .then(function(subscriptionResponse) {
-                console.log(subscriptionResponse);
+//                return response.json();
+ return response.text();
             })
-            .then(response => {
-    if (!response.ok) {
-        return response.json().then(error => {
-            throw new Error(error.message);
-        });
-    }
+            .then(data => {
+				console.log('Data:', data);
+//				 const sessionId = data.session_id;
+//      window.location.href = '/user/success'; // 成功時にリダイレクト
+ const sessionId = data.session_id;
+                window.location.href = `/user/success?session_id=${sessionId}`;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  })
+//            .then(response => response.json())
+//    .then(data => console.log(data))
+//    .catch(error => console.error(error))
+//            .then(function(subscriptionResponse) {
+//                console.log(subscriptionResponse);
+//            })
+//            .then(response => {
+//    if (!response.ok) {
+//        return response.json().then(error => {
+//            throw new Error(error.message);
+//        });
+//    }
     
-    return response.json();
-})
-.catch(error => {
-    alert(`エラー: ${error.message}`);
-});;
+//    return response.json();
+//})
+//.catch(error => {
+//    alert(`エラー: ${error.message}`);
+//});;
 //            if (result.error) {
 //    document.getElementById('cardElementError').textContent = result.error.message;
 //}

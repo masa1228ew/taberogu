@@ -68,7 +68,6 @@ INDEX VERSION 1.134+D:\プログラミング\PAO\taberogu\.metadata\.plugins\org.eclips
 257081122.index
 3653520930.index
 4293952569.index
-678471044.index
 2383950034.index
 1471235179.index
 3134749429.index

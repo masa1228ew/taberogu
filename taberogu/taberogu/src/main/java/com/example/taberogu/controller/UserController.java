@@ -1,10 +1,18 @@
 package com.example.taberogu.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,11 +34,13 @@ import com.example.taberogu.entity.User;
 import com.example.taberogu.form.UserEditForm;
 import com.example.taberogu.repository.UserRepository;
 import com.example.taberogu.security.UserDetailsImpl;
+import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentMethod;
 import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -41,6 +51,8 @@ public class UserController {
  private final UserRepository userRepository;    
  private final UserService userService; 
  private final StripeService stripeService;     
+ @Value("${stripe.api-key}")
+ private String stripeApiKey;
  public UserController(UserRepository userRepository, UserService userService, StripeService stripeService) {
          this.userRepository = userRepository; 
          this.userService = userService; 
@@ -98,11 +110,15 @@ public class UserController {
      
 //     サブスク料金の支払い
      @PostMapping("/create-checkout-session")
-     public ResponseEntity<String> subscribeUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
+     public ResponseEntity<String> 
+//     public String
+     subscribeUser(@AuthenticationPrincipal UserDetailsImpl userDetails,
 //             @RequestParam String paymentMethodId
     		 @RequestBody Map<String, String> payload
              ) {
+    	 Stripe.apiKey = stripeApiKey;
     	 System.out.println("テスト");
+    	
 try {
 User user = userRepository.getReferenceById(userDetails.getUser().getId());
 
@@ -144,16 +160,43 @@ System.out.println("テスト紐付け");
 String planId = "price_1QTlYlBZ4UD9z1bMerQL8aai"; // 事前にStripeで作成したプランIDを指定します
 System.out.println("プランID"+planId);
 Subscription subscription = stripeService.createSubscription(user.getCustomerId(), planId);
+//stripeService.createSubscription(user.getCustomerId(), planId);
 System.out.println("テスト３");
 stripeService.upgradeUserRoleToPaidMember(user.getId());
 System.out.println("テスト4");
-return ResponseEntity.ok("Subscription successful: " + subscription.getId());
 
+
+SessionCreateParams params = SessionCreateParams.builder()
+.addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+.setCustomer(user.getCustomerId())
+.setMode(SessionCreateParams.Mode.SUBSCRIPTION)
+.setSuccessUrl("http://localhost:8080//user/success?session_id={CHECKOUT_SESSION_ID}")
+.setCancelUrl("http://yourdomain.com/canceled")
+.addLineItem(SessionCreateParams.LineItem.builder()
+    .setPrice(planId)
+    .setQuantity(1L)
+    .build())
+.build();
+
+Session checkoutSession = Session.create(params);
+System.out.println(checkoutSession.getId());
+
+SecurityContext auth = SecurityContextHolder.getContext();
+Collection<GrantedAuthority> authorities = new ArrayList<>();         
+authorities.add(new SimpleGrantedAuthority("ROLE_PAID_MEMBER"));
+auth.setAuthentication(new UsernamePasswordAuthenticationToken(userDetails,user.getPassword(),authorities));
+System.out.println("テスト5");
+//return ResponseEntity.ok("Subscription successful: " + subscription.getId());
+return ResponseEntity.ok(checkoutSession.getId());
+//return "user/success";
 } catch (StripeException e) {
 e.printStackTrace();
 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 .body("Error while creating subscription: " + e.getMessage());
 }
+//System.out.println("テスト6");
+//return "user/success";
+//return ResponseEntity.ok("Subscription successful: " + subscription.getId());
 }
 
 //     @PostMapping("/cancel")
@@ -192,8 +235,10 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
      
      @PostMapping("/cancel-subscription")
      public String cancelSubscriptionbtn(@RequestParam String paymentMethodId, Model model
+    		 							
     		 							,@AuthenticationPrincipal UserDetailsImpl userDetails) {
     	 User user = userRepository.getReferenceById(userDetails.getUser().getId());
+    	 
     	    String customerId = user.getCustomerId();
     	 System.out.println("テスト");
 //    	 User user = userDetailsImpl.getUser();
@@ -220,6 +265,10 @@ return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
     	    }
     	   stripeService.upgradeUserRoleToGeneralMember(user.getId());
     	   System.out.println("テスト3");
+    	   SecurityContext auth = SecurityContextHolder.getContext();
+    	   Collection<GrantedAuthority> authorities = new ArrayList<>();         
+    	   authorities.add(new SimpleGrantedAuthority("ROLE_GENERAL"));
+    	   auth.setAuthentication(new UsernamePasswordAuthenticationToken(userDetails,user.getPassword(),authorities));
     	    return "user/cancelResult"; // 操作結果を表示するページ
     	}
      
